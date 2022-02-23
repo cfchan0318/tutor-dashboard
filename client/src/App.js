@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
+import AppNavbar from "./components/navbar/navbar.component";
 import "./App.css";
 
 function App() {
@@ -13,10 +13,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading..." : data}</p>
-      </header>
+      <AppNavbar/>
+      <h1>{data}</h1>
     </div>
   );
 }
