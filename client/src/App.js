@@ -1,5 +1,6 @@
 import React from "react";
 import AppNavbar from "./components/navbar/navbar.component";
+import Dashboard  from "./components/Layout/dashboard.component";
 import "./App.css";
 
 function App() {
@@ -13,8 +14,9 @@ function App() {
 
   return (
     <div className="App">
-      <AppNavbar/>
-      <h1>{data}</h1>
+      <Dashboard>
+        <h1>{data}</h1>
+      </Dashboard>
     </div>
   );
 }

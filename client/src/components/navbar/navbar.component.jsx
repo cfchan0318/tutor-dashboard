@@ -1,15 +1,23 @@
 import React from 'react'
-import { Navbar, Container, Nav } from 'react-bootstrap'
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 
-function AppNavbar() {
+function AppNavbar(props) {
   return (
-    <Navbar sticky="top" bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="#home">Tutor</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link href="#students">Students</Nav.Link>
+    <Navbar className="px-3" sticky="top" bg="dark" variant="dark">
+      <Navbar.Brand href="#home">Tutor</Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto"></Nav>
+        <Nav>
+          <Navbar.Text>
+            {props.username}
+          </Navbar.Text>
+          <Nav.Link eventKey={2} href="#memes">
+            Logout
+          </Nav.Link>
         </Nav>
-      </Container>
+      </Navbar.Collapse>
     </Navbar>
   )
 }
