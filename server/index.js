@@ -2,6 +2,7 @@
 const path = require('path')
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const auth = require("./src/middlewares/auth");
 
 const PORT = process.env.PORT || 3001;
 
@@ -15,25 +16,15 @@ app.get("/api", (req, res) => {
 });
 
 //User auth sample
-app.post("/api/users", verifyToken, (req, res) => {
-    jwt.verify(req.token, 'secret', (err, authData) => {
-        
-        if (err) {
-            res.sendStatus(403);
-        } else {
-            res.json({
-                message: 'user created',
-                authData: authData
-                
-            });
-        }
-    });
-
+app.post("/api/users", auth.verifyToken, (req, res) => {
+    res.json({
+        message: 'user created',
+        authData: req.authData
+    })
 });
 
 app.post('/api/login', (req, res) => {
     //Mock user
-    console.log(req.token);
     const user = {
         id: 1,
         username: 'alice',
@@ -46,38 +37,6 @@ app.post('/api/login', (req, res) => {
         })
     });
 });
-
-//FORMAT of token
-//Authorization: Bearer <access_token>
-function verifyToken(req, res, next) {
-    //get auth header value
-    const bearerHeader = req.get('Authorization');
-    //Check if bearer is undefined
-    if (bearerHeader ===  undefined) {
-        //Forbidden
-        res.sendStatus(403);
-    } else {
-        
-        //split at the space to get ride of 'Bearer'
-        const bearer = bearerHeader.split(' ');
-        //Get token from array
-        const bearerToken = bearer[1];
-        req.token = bearerToken;
-        next();
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
