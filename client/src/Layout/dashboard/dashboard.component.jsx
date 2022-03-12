@@ -6,7 +6,8 @@ import Sidebar from '../sidebar/sidebar.component'
 
 export default function Dashboard(props) {
   const sidebarWidth = 240
-  const title = props.title
+  const title = "Miss Chan Education"
+  
   return (
     <Box sx={{ display: 'flex' }}>
       <Header title={title}></Header>
