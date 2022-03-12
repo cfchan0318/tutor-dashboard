@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@mui/material/Button";
 import "./App.css";
 
 function App() {
@@ -12,9 +13,9 @@ function App() {
 
   return (
     <div className="App">
-      <Dashboard>
+      <Button variant="contained">Hello World</Button>
         <h1>{data}</h1>
-      </Dashboard>
+      
     </div>
   );
 }
