@@ -10,7 +10,7 @@ export default function Dashboard(props) {
   
   return (
     <Box sx={{ display: 'flex' }}>
-      <Header title={title}></Header>
+      <Header title={title} handleOnClick={props.headerHandleOnClick}></Header>
       <Sidebar width={sidebarWidth}></Sidebar>
       <Box
         component="main"

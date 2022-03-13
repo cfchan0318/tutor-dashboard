@@ -16,7 +16,7 @@ export default function Header(props) {
           >
             {title}  
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={props.handleOnClick}>Login</Button>
         </Toolbar>
       </AppBar>
   )
