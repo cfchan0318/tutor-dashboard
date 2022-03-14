@@ -16,6 +16,7 @@ export default function SignIn() {
     console.log({
       username: data.get('username'),
       password: data.get('password'),
+      
     })
   }
 
