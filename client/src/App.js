@@ -2,10 +2,9 @@ import React from "react";
 import { Routes, Route } from 'react-router-dom';
 
 //Page
-import Dashboard from "./Layout/dashboard/dashboard.component";
 import Home from "./pages/Home";
 import Users from "./pages/Users";
-
+import Login from "./pages/Login";
 
 function App() {
 
@@ -20,6 +19,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/login" element={<Login/>}/>
       <Route path="/" element={<Home loginOnClick={getToken}/>} />
       <Route path="users" element={<Users loginOnClick={getToken}/>} />
 

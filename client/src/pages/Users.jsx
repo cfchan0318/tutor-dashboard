@@ -2,7 +2,6 @@ import * as React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
 import { Typography, Button, Box, TextField, Grid } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import Item from '../components/item.component'
 
 export default function Users(props) {
   function handleClick() {}
@@ -64,7 +63,6 @@ export default function Users(props) {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data)
-        console.log(data)
       })
   }, [])
 

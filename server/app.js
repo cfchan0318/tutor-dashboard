@@ -21,12 +21,12 @@ db.sequelize.sync({ force: true }).then(() => {
 
 //Routes
 const userRoute = require("./src/routes/users");
-const loginRoute = require("./src/routes/login");
+const authRoute = require("./src/routes/auth");
 const indexRoute = require("./src/routes/index");
 
 //Router setup
 app.use('/api/users',userRoute);
-app.use('/api/login',loginRoute);
+app.use('/api/login',authRoute);
 app.use('/',indexRoute);
 
 

@@ -3,6 +3,10 @@ const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+
 exports.create = (req, res) => {
   if (!req.body.username || !req.body.password) {
     res.status(400).send({
@@ -11,20 +15,24 @@ exports.create = (req, res) => {
     return;
   }
 
-  const user = {
-    username: req.body.username,
-    password: req.body.password
-  };
-
-  User.create(user)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "error"
+  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+    // Store hash in your password DB.
+    const user = {
+      username: req.body.username,
+      password: hash
+    }
+    User.create(user)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "error"
+        });
       });
-    });
+
+  });
+
 };
 
 exports.findAll = (req, res) => {
