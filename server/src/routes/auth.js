@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
     const password = "" || req.body.password;
 
     if (username == "" || password == "") {
-        res.status(404).send({ message: `Invalid Login.` });
+        res.status(401).send({ message: `Invalid Login.` });
     }
     else {
         User.findOne({
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
                     //user found with username in body
                     bcrypt.compare(password, data.password, function (err, result) {
                         if (err || !result) {
-                            res.status(404).send({ message: `Invalid Login.` });
+                            res.status(401).send({ message: `Invalid Login.` });
                         } else {
                             // set up token for client
                             user = {
@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
                     });
                 }
                 else {
-                    res.status(404).send({ message: `Invalid Login.` });
+                    res.status(401).send({ message: `Invalid Login.` });
                 }
             });
 

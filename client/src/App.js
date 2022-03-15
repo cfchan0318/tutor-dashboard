@@ -11,14 +11,6 @@ function App() {
   const [isLoggedIn,setIsLoggedIn] = React.useState(null);
   const [token,setToken] = React.useState(null);
   
-  /*function setToken() {
-    fetch('./api/login', { method: 'POST', })
-      .then(response => { return response.json() })
-      .then(data => {
-        localStorage.setItem('token', "Bearer " + data.token)
-      })
-  }*/
-
   function getToken(){
     let token = localStorage.getItem('token');
     return token;
@@ -34,7 +26,6 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/" element={isLoggedIn?<Home loginOnClick={getToken} />:<Navigate to="/login" />} />
       <Route path="users" element={isLoggedIn?<Users loginOnClick={getToken} />:<Navigate to="/login" />} />
-      <Route path="*" element={isLoggedIn?<Users loginOnClick={getToken} />:<Navigate to="/login" />} />
     </Routes>
 
 

@@ -12,11 +12,11 @@ app.use(bodyParser.json());
 
 //Database
 const db = require('./src/models');
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-  });
-//db.sequelize.sync();
-//console.log(process.env.DB_HOST);
+//db.sequelize.sync({ force: true }).then(() => {
+  //  console.log("Drop and re-sync db.");
+ // });
+db.sequelize.sync();
+console.log(process.env.DB_HOST);
 
 
 //Routes

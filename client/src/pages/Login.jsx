@@ -7,17 +7,49 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
+import { useNavigate } from 'react-router-dom'
+
 const theme = createTheme()
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
+   async function login(username,password) {
+      const authDetails = {
+        username: username,
+        password: password,
+      };
+
+      fetch('/api/login', { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: JSON.stringify(authDetails)
+        })
+      .then(response => {
+        if(response.status === 401){
+          console.log(response.json().message);
+        }
+        return response.json(); 
+      })
+      .then(data => {
+        console.log(data.token);
+        localStorage.setItem('token', "Bearer " + data.token);
+        navigate('/');
+      })
+      .catch(err =>
+        console.log(err)
+      )
+  }
+
+  
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-      
-    })
+    login(data.get('username'),data.get('password'))
+      .then(response =>{console.log(response)})
+  
   }
 
   return (
