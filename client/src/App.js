@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 //Page
 import Home from "./pages/Home";
@@ -8,24 +8,22 @@ import Login from "./pages/Login";
 
 
 function App() {
-  const [isLoggedIn,setIsLoggedIn] = React.useState(null);
-  const [token,setToken] = React.useState(null);
   
-  function getToken(){
-    let token = localStorage.getItem('token');
-    return token;
+  const navigate = useNavigate();
+  
+  function logout(){
+    
+    localStorage.removeItem('token');
+    localStorage.removeItem('IsLoggedIn');
+    navigate('/login');
   }
 
-  React.useEffect(() => {
-    setToken(getToken());
-    setIsLoggedIn(getToken()!==null);
-  },[]);
-
+ 
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={isLoggedIn?<Home loginOnClick={getToken} />:<Navigate to="/login" />} />
-      <Route path="users" element={isLoggedIn?<Users loginOnClick={getToken} />:<Navigate to="/login" />} />
+      <Route path="/login" element={localStorage.getItem('IsLoggedIn')?<Navigate to="/" />:<Login />} />
+      <Route path="/" element={localStorage.getItem('IsLoggedIn')?<Home logoutOnClick={logout} />:<Navigate to="/login" />} />
+      <Route path="users" element={localStorage.getItem('IsLoggedIn')?<Users logoutOnClick={logout} />:<Navigate to="/login" />} />
     </Routes>
 
 

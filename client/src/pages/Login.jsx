@@ -12,44 +12,44 @@ import { useNavigate } from 'react-router-dom'
 const theme = createTheme()
 
 export default function SignIn() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-   async function login(username,password) {
-      const authDetails = {
-        username: username,
-        password: password,
-      };
-
-      fetch('/api/login', { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }, 
-          body: JSON.stringify(authDetails)
-        })
-      .then(response => {
-        if(response.status === 401){
-          console.log(response.json().message);
-        }
-        return response.json(); 
-      })
-      .then(data => {
-        console.log(data.token);
-        localStorage.setItem('token', "Bearer " + data.token);
-        navigate('/');
-      })
-      .catch(err =>
-        console.log(err)
-      )
+  async function setlocalStorage(token, IsLoggedIn) {
+    localStorage.setItem('token', 'Bearer ' + token)
+    localStorage.setItem('IsLoggedIn', IsLoggedIn)
   }
 
-  
+  async function login(username, password) {
+    const authDetails = {
+      username: username,
+      password: password,
+    }
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(authDetails),
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          console.log(response.json().message)
+        }
+        return response.json()
+      })
+      .then((data) => {
+        //console.log(data.token);
+
+        setlocalStorage(data.token, true).then(() => navigate('/'))
+      })
+      .catch((err) => console.log(err))
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    login(data.get('username'),data.get('password'))
-      .then(response =>{console.log(response)})
-  
+    login(data.get('username'), data.get('password'))
   }
 
   return (

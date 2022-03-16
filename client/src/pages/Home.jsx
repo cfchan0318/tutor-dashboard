@@ -12,7 +12,7 @@ export default function Home(props) {
   }, [])
 
   return (
-    <Dashboard headerHandleOnClick={props.loginOnClick}>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Typography variant="h3">Home</Typography>
       <Typography>{data}</Typography>
     </Dashboard>

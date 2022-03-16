@@ -4,10 +4,18 @@ import { Typography, Button, Box, TextField, Grid } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 export default function Users(props) {
-  function handleClick() {}
+  const [id, setId] = React.useState('')
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
   const [users, setUsers] = React.useState([])
   const token = localStorage.getItem('token')
+  function handleClick() {}
+
+  function updateOnClick(event, cellValues) {
+    setId(cellValues.row.id)
+    setUsername(cellValues.row.username)
+  }
 
   const columns = [
     { field: 'username', headerName: 'Username', width: 130, flex: 1 },
@@ -37,7 +45,7 @@ export default function Users(props) {
               variant="contained"
               color="primary"
               onClick={(event) => {
-                handleClick(event, cellValues)
+                updateOnClick(event, cellValues)
               }}
             >
               Update
@@ -58,30 +66,103 @@ export default function Users(props) {
     },
   ]
 
-  React.useEffect(() => {
+  function getUsers() {
     fetch('/api/users', { headers: { Authorization: token } })
       .then((res) => res.json())
       .then((data) => {
         setUsers(data)
       })
+  }
+
+  async function createUser(username, password) {
+    const user = {
+      username: username,
+      password: password,
+    }
+    fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify(user),
+    }).then(() => {
+      return
+    })
+  }
+
+  async function updateUser(id, username, password) {
+    const user = {
+      id: id,
+      username: username,
+      password: password,
+    }
+
+    console.log(user)
+    fetch('/api/users/' + user.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify(user),
+    }).then(() => {
+      return
+    })
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget)
+    const user = {
+      id: id,
+      username: data.get('username'),
+      password: data.get('password'),
+    }
+
+    if (user.id !== '') {
+      updateUser(user.id, user.username, user.password).then(() => {
+        console.log("user updated")
+      })
+    } else {
+      createUser(user.username, user.password).then(() => {
+        getUsers()
+      })
+    }
+  }
+
+  React.useEffect(() => {
+    getUsers()
   }, [])
 
   return (
-    <Dashboard headerHandleOnClick={props.loginOnClick}>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Box sx={{ mb: 1 }}>
         <Typography variant="h4">Users</Typography>
       </Box>
 
-      <Box sx={{ mb: 2 }}>
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mb: 2 }}>
         <Typography variant="h5">Create User</Typography>
+        <TextField
+          disabled
+          value={id}
+          type="hidden"
+          name="id"
+          variant="standard"
+        />
         <Grid container alignItems="center" spacing={3}>
           <Grid item xs>
             <Box>
               <TextField
                 required
                 fullWidth
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value)
+                }}
                 id="outlined-required"
                 label="Username"
+                name="username"
               />
             </Box>
           </Grid>
@@ -90,31 +171,32 @@ export default function Users(props) {
               <TextField
                 required
                 fullWidth
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                }}
                 id="outlined-required"
                 label="Password"
+                name="password"
               />
             </Box>
           </Grid>
           <Grid item xs>
             <Box>
               <Button
+                type="submit"
                 style={{ marginRight: '10px' }}
                 variant="contained"
                 color="primary"
-                onClick={(event) => {
-                  handleClick(event)
-                }}
               >
-                Update
+                {id == '' ? 'Create user' : 'Update User'}
               </Button>
             </Box>
           </Grid>
         </Grid>
       </Box>
 
-      
-
-      <div style={{ display: 'flex', height: '100%' }}>
+      <div style={{ display: 'flex', height: '800px' }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid getRowId={(row) => row.id} rows={users} columns={columns} />
         </div>
