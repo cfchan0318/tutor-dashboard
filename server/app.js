@@ -2,6 +2,11 @@ const express = require("express");
 const path = require('path');
 const bodyParser = require("body-parser");
 const app = express();
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+
 require("dotenv").config();
 
 //request would be sent in json
@@ -12,10 +17,44 @@ app.use(bodyParser.json());
 
 //Database
 const db = require('./src/models');
-//db.sequelize.sync({ force: true }).then(() => {
-  //  console.log("Drop and re-sync db.");
- // });
-db.sequelize.sync();
+
+db.sequelize.sync({ force: true }).then(() => {
+
+    console.log("Drop and re-sync db.");
+    const admin = {
+        username: process.env.ADMIN_USERNAME,
+        password: process.env.ADMIN_PASSWORD
+    };
+
+    bcrypt.hash(admin.password, saltRounds, function (err, hash) {
+        // Store hash in your password DB.
+        db.users.findOrCreate({
+            where: { username: admin.username },
+            defaults: {
+                password: hash,
+            }
+        })
+    });
+});
+/*db.sequelize.sync()
+    .then(() => {
+
+        const admin = {
+            username: process.env.ADMIN_USERNAME,
+            password: process.env.ADMIN_PASSWORD
+        };
+
+        bcrypt.hash(admin.password, saltRounds, function (err, hash) {
+            // Store hash in your password DB.
+            db.users.findOrCreate({
+                where: { username: admin.username },
+                defaults: {
+                    password: hash,
+                }
+            })
+        });
+
+    });*/
 console.log(process.env.DB_HOST);
 
 
@@ -25,9 +64,9 @@ const authRoute = require("./src/routes/auth");
 const indexRoute = require("./src/routes/index");
 
 //Router setup
-app.use('/api/users',userRoute);
-app.use('/api/login',authRoute);
-app.use('/',indexRoute);
+app.use('/api/users', userRoute);
+app.use('/api/login', authRoute);
+app.use('/', indexRoute);
 
 
 // Have Node serve the files for our built React app

@@ -15,23 +15,40 @@ exports.create = (req, res) => {
     return;
   }
 
-  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-    // Store hash in your password DB.
-    const user = {
-      username: req.body.username,
-      password: hash
-    }
-    User.create(user)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
+  let isUserExist = false;
+  User.findAll({ where: { username: req.body.username }, limit: 1 })
+    .then(users => {
+      if (users.length > 0) {
+        isUserExist = true;
+      }
+    })
+    .then(() => {
+      if (isUserExist) {
         res.status(500).send({
-          message: "error"
+          message: "user already exist"
         });
-      });
+      } else {
+        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+          // Store hash in your password DB.
+          const user = {
+            username: req.body.username,
+            password: hash
+          }
+          User.create(user)
+            .then(data => {
+              res.send(data);
+            })
+            .catch(err => {
+              res.status(500).send({
+                message: "error"
+              });
+            });
+        });
+      }
 
-  });
+    })
+
+
 
 };
 
@@ -71,7 +88,7 @@ exports.update = (req, res) => {
   const id = req.params.id;
   bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
     req.body.password = hash;
-  
+
     User.update(req.body, {
       where: { id: id }
     })
