@@ -10,7 +10,15 @@ export default function Users(props) {
 
   const [users, setUsers] = React.useState([])
   const token = localStorage.getItem('token')
-  function handleClick() {}
+
+  function deleteOnClick(event,cellValues) {
+
+   const userId = cellValues.row.id
+    deletUser(userId).then(() => {
+      alert('user')
+      getUsers()
+    })
+  }
 
   function updateOnClick(event, cellValues) {
     setId(cellValues.row.id)
@@ -55,7 +63,7 @@ export default function Users(props) {
               variant="contained"
               color="error"
               onClick={(event) => {
-                handleClick(event, cellValues)
+                deleteOnClick(event, cellValues)
               }}
             >
               Remove
@@ -98,7 +106,6 @@ export default function Users(props) {
       password: password,
     }
 
-    console.log(user)
     fetch('/api/users/' + user.id, {
       method: 'PUT',
       headers: {
@@ -106,6 +113,18 @@ export default function Users(props) {
         Authorization: token,
       },
       body: JSON.stringify(user),
+    }).then(() => {
+      return
+    })
+  }
+
+  async function deletUser(id) {
+    fetch('/api/users/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
     }).then(() => {
       return
     })
@@ -122,7 +141,7 @@ export default function Users(props) {
 
     if (user.id !== '') {
       updateUser(user.id, user.username, user.password).then(() => {
-        console.log("user updated")
+        console.log('user updated')
       })
     } else {
       createUser(user.username, user.password).then(() => {
