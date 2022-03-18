@@ -17,4 +17,13 @@ db.sequelize = sequelize;
 
 //models
 db.users = require("./user.model")(sequelize,Sequelize);
+db.schools = require("./school.model")(sequelize,Sequelize);
+db.classrooms = require("./classroom.model")(sequelize,Sequelize);
+
+//Relations - schools classrooms 1 to many
+db.schools.hasMany(db.classrooms,{as:'classrooms'});
+db.classrooms.belongsTo(db.schools,{
+    foreignKey:"schoolId",
+    as : "school",
+});
 module.exports = db;
