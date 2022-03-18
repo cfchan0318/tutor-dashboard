@@ -20,6 +20,7 @@ const db = require('./src/models');
 
 db.sequelize.sync({ force: true }).then(() => {
 
+    //create default admin user
     console.log("Drop and re-sync db.");
     const admin = {
         username: process.env.ADMIN_USERNAME,
@@ -36,6 +37,7 @@ db.sequelize.sync({ force: true }).then(() => {
         })
     });
 });
+
 /*db.sequelize.sync()
     .then(() => {
 
@@ -59,13 +61,18 @@ console.log(process.env.DB_HOST);
 
 
 //Routes
-const userRoute = require("./src/routes/users");
-const authRoute = require("./src/routes/auth");
 const indexRoute = require("./src/routes/index");
+const authRoute = require("./src/routes/auth");
+
+const userRoute = require("./src/routes/users");
+const schoolRoute = require("./src/routes/schools");
+
+
 
 //Router setup
 app.use('/api/users', userRoute);
 app.use('/api/login', authRoute);
+app.use('/api/schools',schoolRoute);
 app.use('/', indexRoute);
 
 
