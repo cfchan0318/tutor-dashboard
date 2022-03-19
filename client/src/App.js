@@ -5,6 +5,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Home from "./pages/Home";
 import Users from "./pages/Users";
 import Login from "./pages/Login";
+import Schools from "./pages/Schools";
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
     <Routes>
       <Route path="/login" element={localStorage.getItem('IsLoggedIn')?<Navigate to="/" />:<Login />} />
       <Route path="/" element={localStorage.getItem('IsLoggedIn')?<Home logoutOnClick={logout} />:<Navigate to="/login" />} />
-      <Route path="users" element={localStorage.getItem('IsLoggedIn')?<Users logoutOnClick={logout} />:<Navigate to="/login" />} />
+      <Route path="/users" element={localStorage.getItem('IsLoggedIn')?<Users logoutOnClick={logout} />:<Navigate to="/login" />} />
+      <Route path="/schools" element={localStorage.getItem('IsLoggedIn')?<Schools logoutOnClick={logout} />:<Navigate to="/login" />} />
     </Routes>
 
 
