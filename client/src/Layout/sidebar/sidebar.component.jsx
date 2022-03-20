@@ -6,6 +6,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import SchoolIcon from '@mui/icons-material/School';
+import RoomIcon from '@mui/icons-material/Room';
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
@@ -37,6 +38,12 @@ export default function Sidebar(props) {
           <SchoolIcon />
         </ListItemIcon>
         <ListItemText primary="Schools" />
+      </ListItem>
+      <ListItem onClick={() => navigate('/classrooms')} button key="Classrooms">
+        <ListItemIcon>
+          <RoomIcon />
+        </ListItemIcon>
+        <ListItemText primary="Classrooms" />
       </ListItem>
       <Divider />
       <ListItem onClick={() => navigate('/users')} button key="Users">
