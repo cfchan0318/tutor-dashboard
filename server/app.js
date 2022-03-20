@@ -64,15 +64,17 @@ console.log(process.env.DB_HOST);
 const indexRoute = require("./src/routes/index");
 const authRoute = require("./src/routes/auth");
 
+//Routes - Entities
 const userRoute = require("./src/routes/users");
 const schoolRoute = require("./src/routes/schools");
-
+const classroomRoute = require("./src/routes/classrooms");
 
 
 //Router setup
 app.use('/api/users', userRoute);
 app.use('/api/login', authRoute);
 app.use('/api/schools',schoolRoute);
+app.use('/api/classrooms',classroomRoute);
 app.use('/', indexRoute);
 
 
