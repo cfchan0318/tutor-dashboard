@@ -8,10 +8,15 @@ export default function Classrooms(props) {
   //auth
   const token = localStorage.getItem('token')
 
-  //data
   const [schools, setSchools] = React.useState([])
   const [classrooms, setClassrooms] = React.useState([])
 
+  //current classroom
+  const [id, setId] = React.useState(0)
+  const [schoolId, setSchoolId] = React.useState(0)
+  const [description, setDescription] = React.useState('')
+
+  //Data
   async function fetchSchools() {
     axios
       .get('/api/schools', {
@@ -26,7 +31,7 @@ export default function Classrooms(props) {
 
   async function findSchoolById(id) {
     let school = schools.find((element) => element.id === id)
-    
+
     if (school === undefined) {
       return ''
     }
@@ -55,6 +60,67 @@ export default function Classrooms(props) {
       })
   }
 
+  //Classroom Form utils
+  function handleSchoolIdOnChange(schoolId) {
+    setSchoolId(schoolId)
+  }
+
+  function handleDescriptionOnChange(description) {
+    setDescription(description)
+  }
+
+  function handleOnSubmit() {
+    console.log(id + ' ' + schoolId + ' ' + description)
+    const classroom = {
+      schoolId: schoolId,
+      description: description,
+    }
+
+    if (id === 0) {
+      axios
+        .post('/api/classrooms', classroom, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          alert('created successfully.')
+          fetchClassrooms()
+        })
+    } else {
+      axios
+        .put('/api/classrooms/'+id, classroom, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          alert('updated successfully.')
+          fetchClassrooms()
+        })
+    }
+  }
+
+  //Classroom List Utils
+  function handleDeleteOnClick(event, cellValues) {
+    const classroomId = cellValues.row.id
+    axios
+      .delete('/api/classrooms/' + classroomId, {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        alert(response.data.message)
+        fetchSchools();
+      })
+  }
+
+  function handleUpdateOnClick(event,cellValues){
+    setId(cellValues.row.id);
+    setSchoolId(cellValues.row.schoolId);
+    setDescription(cellValues.row.description);
+  }
+
+  //Lifecycle
   React.useEffect(() => {
     fetchSchools()
   }, [])
@@ -65,8 +131,20 @@ export default function Classrooms(props) {
 
   return (
     <Dashboard>
-      <ClassroomForm classroom={{}} schools={schools}/>
-      <ClassroomList classrooms={classrooms}></ClassroomList>
+      <ClassroomForm
+        id={id}
+        schoolId={schoolId}
+        description={description}
+        schools={schools}
+        handleSchoolIdOnChange={handleSchoolIdOnChange}
+        handleDescriptionOnChange={handleDescriptionOnChange}
+        handleOnSubmit={handleOnSubmit}
+      />
+      <ClassroomList
+        classrooms={classrooms}
+        handleDeleteOnClick={handleDeleteOnClick}
+        handleUpdateOnClick={handleUpdateOnClick}
+      ></ClassroomList>
     </Dashboard>
   )
 }

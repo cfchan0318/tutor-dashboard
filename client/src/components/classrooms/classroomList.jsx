@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-export default function ClassroomList({classrooms,updateOnClick,deleteOnClick}){
+export default function ClassroomList({classrooms,handleUpdateOnClick,handleDeleteOnClick}){
    
     const columns = [
         { field: 'description', headerName: 'Description', width: 130, flex: 1 },
@@ -33,7 +33,7 @@ export default function ClassroomList({classrooms,updateOnClick,deleteOnClick}){
                   variant="contained"
                   color="primary"
                   onClick={(event) => {
-                    updateOnClick(event, cellValues)
+                    handleUpdateOnClick(event, cellValues)
                   }}
                 >
                   Update
@@ -43,7 +43,7 @@ export default function ClassroomList({classrooms,updateOnClick,deleteOnClick}){
                   variant="contained"
                   color="error"
                   onClick={(event) => {
-                    deleteOnClick(event, cellValues)
+                    handleDeleteOnClick(event, cellValues)
                   }}
                 >
                   Remove

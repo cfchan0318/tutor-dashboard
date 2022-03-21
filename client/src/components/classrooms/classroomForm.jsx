@@ -11,13 +11,25 @@ import {
   MenuItem,
 } from '@mui/material'
 
-export default function ClassroomForm({ classroom, schools, formOnSubmit }) {
+export default function ClassroomForm({
+  id,
+  schoolId,
+  description,
+  schools,
+  handleSchoolIdOnChange,
+  handleDescriptionOnChange,
+  handleOnSubmit,
+}) {
+
+  const handleSchoolOnChange = (e) => {
+  }
+
   return (
     <Box
       component="form"
       onSubmit={(e) => {
         e.preventDefault()
-        formOnSubmit()
+        handleOnSubmit();
       }}
       noValidate
       sx={{ mb: 2 }}
@@ -25,7 +37,7 @@ export default function ClassroomForm({ classroom, schools, formOnSubmit }) {
       <Typography variant="h5">Create/Update Classroom</Typography>
       <TextField
         disabled
-        value={classroom.id}
+        value={id}
         type="hidden"
         name="id"
         variant="standard"
@@ -35,15 +47,12 @@ export default function ClassroomForm({ classroom, schools, formOnSubmit }) {
           <FormControl sx={{ minWidth: 150 }}>
             <InputLabel id="schoolId">School</InputLabel>
             <Select
-              defaultValue={0}
+              
               labelId="schoolId"
               id="schoolId"
-              value={classroom.schoolId}
-              onChange={(e) => {
-                e.preventDefault()
-                //schoolIdOnChange(e.target.value)
-              }}
+              value={schoolId}
               label="School"
+              onChange={e=>{handleSchoolIdOnChange(e.target.value)}}
             >
               <MenuItem value={0}>Please select School</MenuItem>
               {schools.map((school) => (
@@ -59,13 +68,11 @@ export default function ClassroomForm({ classroom, schools, formOnSubmit }) {
             <TextField
               required
               fullWidth
-              value={classroom.description}
-              onChange={(e) => {
-                //setDescription(e.target.value)
-              }}
+              value={description}
               id="outlined-required"
               label="Description"
               name="description"
+              onChange={e=>{handleDescriptionOnChange(e.target.value)}}
             />
           </Box>
         </Grid>
@@ -78,9 +85,7 @@ export default function ClassroomForm({ classroom, schools, formOnSubmit }) {
               variant="contained"
               color="primary"
             >
-              {classroom.id == undefined
-                ? 'Create classroom'
-                : 'Update classroom'}
+              {id == '' ? 'Create classroom' : 'Update classroom'}
             </Button>
           </Box>
         </Grid>
