@@ -2,11 +2,12 @@ import * as React from 'react'
 import Drawer from '@mui/material/Drawer'
 import Toolbar from '@mui/material/Toolbar'
 import Divider from '@mui/material/Divider'
-import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
+import { List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import SchoolIcon from '@mui/icons-material/School';
 import RoomIcon from '@mui/icons-material/Room';
+
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
@@ -33,6 +34,19 @@ export default function Sidebar(props) {
         </ListItem>
       </List>
       <Divider />
+      <ListItem>
+      <Typography variant='subtitle2'>Course Management</Typography>
+      </ListItem>
+      <ListItem onClick={() => navigate('/subjects')} button key="Subjects">
+        <ListItemIcon>
+          <SchoolIcon />
+        </ListItemIcon>
+        <ListItemText primary="Subjects" />
+      </ListItem>
+      <Divider />
+      <ListItem>
+      <Typography variant='subtitle2'>School Management</Typography>
+      </ListItem>
       <ListItem onClick={() => navigate('/schools')} button key="Schools">
         <ListItemIcon>
           <SchoolIcon />
@@ -46,6 +60,9 @@ export default function Sidebar(props) {
         <ListItemText primary="Classrooms" />
       </ListItem>
       <Divider />
+      <ListItem>
+      <Typography variant='subtitle2'>System Management</Typography>
+      </ListItem>
       <ListItem onClick={() => navigate('/users')} button key="Users">
         <ListItemIcon>
           <PersonIcon />

@@ -68,6 +68,7 @@ const authRoute = require("./src/routes/auth");
 const userRoute = require("./src/routes/users");
 const schoolRoute = require("./src/routes/schools");
 const classroomRoute = require("./src/routes/classrooms");
+const subjectRoute = require("./src/routes/subjects")
 
 
 //Router setup
@@ -75,6 +76,8 @@ app.use('/api/users', userRoute);
 app.use('/api/login', authRoute);
 app.use('/api/schools',schoolRoute);
 app.use('/api/classrooms',classroomRoute);
+app.use('/api/subjects',subjectRoute);
+
 app.use('/', indexRoute);
 
 
