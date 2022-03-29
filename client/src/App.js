@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Schools from "./pages/Schools";
 import Classrooms from "./pages/Classroom";
 import Subjects from "./pages/Subjects";
+import Students from "./pages/Students";
 
 function App() {
   
@@ -29,6 +30,7 @@ function App() {
       <Route path="/schools" element={localStorage.getItem('IsLoggedIn')?<Schools logoutOnClick={logout} />:<Navigate to="/login" />} />
       <Route path="/classrooms" element={localStorage.getItem('IsLoggedIn')?<Classrooms logoutOnClick={logout} />:<Navigate to="/login" />} />
       <Route path="/subjects" element={localStorage.getItem('IsLoggedIn')?<Subjects logoutOnClick={logout} />:<Navigate to="/login" />} />
+      <Route path="/students" element={localStorage.getItem('IsLoggedIn')?<Students logoutOnClick={logout} />:<Navigate to="/login" />} />
     </Routes>
 
 
