@@ -35,50 +35,53 @@ export default function Sidebar(props) {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary="主頁" />
         </ListItem>
       </List>
       <Divider />
       <ListItem>
-        <Typography variant="subtitle2">Course Management</Typography>
+        <Typography variant="subtitle2">課程管理</Typography>
       </ListItem>
       <ListItem onClick={() => navigate('/subjects')} button key="Subjects">
         <ListItemIcon>
           <SchoolIcon />
         </ListItemIcon>
-        <ListItemText primary="Subjects" />
+        <ListItemText primary="科目" />
       </ListItem>
       <Divider />
       <ListItem>
-        <Typography variant="subtitle2">School Management</Typography>
+        <Typography variant="subtitle2">學校管理</Typography>
       </ListItem>
       <ListItem onClick={() => navigate('/schools')} button key="Schools">
         <ListItemIcon>
           <SchoolIcon />
         </ListItemIcon>
-        <ListItemText primary="Schools" />
+        <ListItemText primary="學校" />
       </ListItem>
+
+      <ListItem onClick={() => navigate('/classrooms')} button key="Classrooms">
+        <ListItemIcon>
+          <RoomIcon />
+        </ListItemIcon>
+        <ListItemText primary="課室" />
+      </ListItem>
+
       <ListItem onClick={() => navigate('/students')} button key="Students">
         <ListItemIcon>
           <SchoolIcon />
         </ListItemIcon>
         <ListItemText primary="學生" />
       </ListItem>
-      <ListItem onClick={() => navigate('/classrooms')} button key="Classrooms">
-        <ListItemIcon>
-          <RoomIcon />
-        </ListItemIcon>
-        <ListItemText primary="Classrooms" />
-      </ListItem>
+      
       <Divider />
       <ListItem>
-        <Typography variant="subtitle2">System Management</Typography>
+        <Typography variant="subtitle2">系統管理</Typography>
       </ListItem>
       <ListItem onClick={() => navigate('/users')} button key="Users">
         <ListItemIcon>
           <PersonIcon />
         </ListItemIcon>
-        <ListItemText primary="Users" />
+        <ListItemText primary="用戶" />
       </ListItem>
     </Drawer>
   )

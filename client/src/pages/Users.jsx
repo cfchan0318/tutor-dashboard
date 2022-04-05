@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
-import { Typography, Button, Box, TextField, Grid } from '@mui/material'
+import { Typography, Button, Box, TextField, Grid, Link } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 export default function Users(props) {
@@ -157,11 +157,12 @@ export default function Users(props) {
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Box sx={{ mb: 1 }}>
-        <Typography variant="h4">Users</Typography>
+        <Typography variant="h4">用戶</Typography>
+        <Link>asdasd</Link>
       </Box>
-
+      
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mb: 2 }}>
-        <Typography variant="h5">Create User</Typography>
+       
         <TextField
           disabled
           value={id}
@@ -187,6 +188,7 @@ export default function Users(props) {
           </Grid>
           <Grid item xs>
             <Box>
+              
               <TextField
                 required
                 fullWidth
