@@ -27,7 +27,7 @@ exports.create = (req, res) => {
 
 exports.findOne = (req, res) => {
     const id = req.params.id;
-    Student.getOneByPk(id)
+    Student.findOne({id: id})
         .then(data => {
             if (data) {
                 res.send(data);

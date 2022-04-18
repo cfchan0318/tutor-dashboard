@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 
 export default function StudentForm(props) {
-  const stateStudent = {
+  const newStudent = {
     id: -1,
     studentNumber: '',
     name: '',
@@ -27,18 +27,14 @@ export default function StudentForm(props) {
     joinDate: '',
   }
 
-  const [student, setStudent] = React.useState(props.student || stateStudent)
-
+  const [student, setStudent] = React.useState(newStudent);
+ 
+  React.useEffect(() => {
+    setStudent(props.student);
+  },[props.student])
+  
   function submitOnClick(student) {
-    if (student.id === -1) {
-      //Create Student
-      axios
-        .post('/api/students', student, {
-          headers: { Authorization: props.token },
-        })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err))
-    } else {
+    if (student.id) {
       //Update Student
       axios
         .put('/api/students/' + student.id, student, {
@@ -46,15 +42,24 @@ export default function StudentForm(props) {
         })
         .then((res) => console.log(res))
         .catch((err) => console.log(err))
+    } else {
+      //Create Student
+      axios
+        .post('/api/students', student, {
+          headers: { Authorization: props.token },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err))
     }
+    props.submitStudent()
   }
 
   return (
     <Box
       component="form"
       onSubmit={(e) => {
-        e.preventDefault();
-        submitOnClick(student);
+        e.preventDefault()
+        submitOnClick(student)
       }}
       noValidate
       sx={{ mb: 2 }}
@@ -183,7 +188,7 @@ export default function StudentForm(props) {
               variant="contained"
               color="primary"
             >
-              {student.id === -1 ? '新增學生' : '更新學生'}
+              {student.id ? '更新學生' : '新增學生'}
             </Button>
           </Box>
         </Grid>

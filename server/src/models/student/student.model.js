@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
             validate: { isIn: [['M', 'F']] }
         },
         birthday: {
-            type: Sequelize.DATE
+            type: Sequelize.DATEONLY
         },
         hkid: {
             type: Sequelize.STRING
@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
             type:Sequelize.STRING
         },
         joinDate: {
-            type: Sequelize.DATE,
+            type: Sequelize.DATEONLY,
             defaultValue: new Date(),
         }
     });
