@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
-import { Box, Typography, Link } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import StudentList from '../components/students/studentsList'
 import StudentForm from '../components/students/studentForm'
 import axios from 'axios'
@@ -33,7 +33,8 @@ export default function Student(props) {
   }
 
   function submitStudent() {
-    getStudents()
+    console.log("submitted");
+    getStudents();
   }
 
   function updateOnClick(event, cellValues) {
@@ -57,11 +58,12 @@ export default function Student(props) {
         Authorization: token,
       },
     })
+    getStudents();
   }
 
   React.useEffect(() => {
     getStudents()
-  }, [])
+  },[])
 
   return (
     <Dashboard>

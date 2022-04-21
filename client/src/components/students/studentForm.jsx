@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Grid,
-  Typography,
   TextField,
   FormControl,
   FormLabel,
@@ -34,7 +33,7 @@ export default function StudentForm(props) {
   },[props.student])
   
   function submitOnClick(student) {
-    if (student.id != -1) {
+    if (student.id !== -1) {
       //Update Student
       axios
         .put('/api/students/' + student.id, student, {
@@ -188,7 +187,7 @@ export default function StudentForm(props) {
               variant="contained"
               color="primary"
             >
-              {student.id != -1 ? '更新學生' : '新增學生'}
+              {student.id !== -1 ? '更新學生' : '新增學生'}
             </Button>
           </Box>
         </Grid>

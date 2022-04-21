@@ -86,7 +86,7 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
     const id = req.params.id;
-    Subject.destroy({
+    Student.destroy({
       where: { id: id }
     })
       .then(num => {
