@@ -70,6 +70,7 @@ const schoolRoute = require("./src/routes/schools");
 const classroomRoute = require("./src/routes/classrooms");
 const subjectRoute = require("./src/routes/subjects");
 const studentRoute = require("./src/routes/student");
+const courseRoute = require("./src/routes/course");
 
 
 //Router setup
@@ -79,6 +80,7 @@ app.use('/api/schools',schoolRoute);
 app.use('/api/classrooms',classroomRoute);
 app.use('/api/subjects', subjectRoute);
 app.use('/api/students', studentRoute);
+app.use('/')
 
 app.use('/', indexRoute);
 
