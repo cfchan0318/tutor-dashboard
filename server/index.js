@@ -80,6 +80,7 @@ app.use('/api/schools',schoolRoute);
 app.use('/api/classrooms',classroomRoute);
 app.use('/api/subjects', subjectRoute);
 app.use('/api/students', studentRoute);
+app.use('/api/courses', courseRoute);
 app.use('/')
 
 app.use('/', indexRoute);
