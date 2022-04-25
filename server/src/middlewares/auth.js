@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 
-module.exports = { verifyToken }
 
 //FORMAT of token
 //Authorization: Bearer <access_token>
@@ -31,3 +30,4 @@ function verifyToken(req, res, next) {
         });
     }
 }
+module.exports = { verifyToken }

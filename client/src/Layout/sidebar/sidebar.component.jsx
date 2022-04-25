@@ -42,11 +42,19 @@ export default function Sidebar(props) {
       <ListItem>
         <Typography variant="subtitle2">課程管理</Typography>
       </ListItem>
+
       <ListItem onClick={() => navigate('/subjects')} button key="Subjects">
         <ListItemIcon>
           <SchoolIcon />
         </ListItemIcon>
         <ListItemText primary="科目" />
+      </ListItem>
+
+      <ListItem onClick={() => navigate('/courses')} button key="Courses">
+        <ListItemIcon>
+          <SchoolIcon />
+        </ListItemIcon>
+        <ListItemText primary="課程" />
       </ListItem>
       <Divider />
       <ListItem>
