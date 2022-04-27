@@ -71,7 +71,7 @@ const classroomRoute = require("./src/routes/classrooms");
 const subjectRoute = require("./src/routes/subjects");
 const studentRoute = require("./src/routes/student");
 const courseRoute = require("./src/routes/courses");
-
+const classRoute = require("./src/routes/classes");
 
 //Router setup
 app.use('/api/users', userRoute);
@@ -81,6 +81,7 @@ app.use('/api/classrooms',classroomRoute);
 app.use('/api/subjects', subjectRoute);
 app.use('/api/students', studentRoute);
 app.use('/api/courses', courseRoute);
+app.use('/api/classes', classRoute);
 
 
 app.use('/', indexRoute);
