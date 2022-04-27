@@ -22,6 +22,7 @@ db.classrooms = require("./classroom.model")(sequelize,Sequelize);
 db.subjects = require("./subject.model")(sequelize, Sequelize);
 db.students = require("./student/student.model")(sequelize, Sequelize);
 db.courses = require("./course.model")(sequelize, Sequelize);
+db.classes = require("./class.model")(sequelize, Sequelize);
 
 //Relations - schools classrooms 1 to many
 db.schools.hasMany(db.classrooms,{as:'classrooms'});
@@ -30,6 +31,18 @@ db.classrooms.belongsTo(db.schools,{
     as : "school",
 });
 
-//Relation - one course has one subject
+//Relation - subject_course - 1-M
+db.subjects.hasMany(db.courses);
 db.courses.belongsTo(db.subjects);
 module.exports = db;
+
+//Relation - course class - 1-M
+db.courses.hasMany(db.classes);
+db.classes.belongsTo(db.courses);
+
+//Relation -  classroom class - 1-M
+db.classrooms.hasMany(db.classes);
+db.classes.belongsTo(db.classrooms);
+
+
+
