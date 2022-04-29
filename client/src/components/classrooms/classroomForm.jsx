@@ -21,9 +21,7 @@ export default function ClassroomForm({
   handleOnSubmit,
 }) {
 
-  const handleSchoolOnChange = (e) => {
-  }
-
+  
   return (
     <Box
       component="form"

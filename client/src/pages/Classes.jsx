@@ -1,54 +1,41 @@
 import axios from 'axios'
 import * as React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
-import CourseList from '../components/courses/courseList'
-import CourseForm from '../components/courses/courseForm'
+import ClassList from '../components/classes/classList'
+import CreateClassModal from '../components/classes/createClassModal'
+import { Box, Button, Typography } from '@mui/material'
 
-export default function Subject(props) {
+export default function Class(props) {
   //auth
-  const token = localStorage.getItem('token')
-  
-  const [courseId, setCourseId] = React.useState(null);
-  const [courses, setCourses] = React.useState([]);
+  const token = localStorage.getItem('token');
 
-  const getCourses = () => { 
-    axios.get('/api/courses', { headers: { "Authorization": token } })
-      .then(response => {
-        setCourses(response.data);
-      });
-  }
+  //Modal
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  React.useEffect(() => { 
-    getCourses();
-  },[])
-
-  const handleUpdateOnClick = (event, cellValues) => { 
-    setCourseId(cellValues.row.id);
-  }
-
-  const handleDeleteOnClick = (event,cellValues) => { 
-    axios.delete('/api/courses/' + cellValues.row.id, { headers: { "Authorization": token } })
-      .then(() => {
-        getCourses();
-      })
-  }
-
-  const handleSubmit = () => { 
-    getCourses();
+  const createClasssOnClick = () => {
+    handleOpen();
   }
 
   return (
     <Dashboard>
-      <CourseForm
-        token={token}
-        courseId={courseId}
-        handleSubmit={handleSubmit}
-      />
-      <CourseList
-        courses={courses}
-        handleUpdateOnClick={handleUpdateOnClick}
-        handleDeleteOnClick={handleDeleteOnClick}
-      />
+      <Typography variant="h4" gutterBottom>
+        課堂管理
+      </Typography>
+      <Box>
+        <Button
+          type="submit"
+          style={{ marginRight: '10px' }}
+          variant="contained"
+          color="primary"
+          onClick={createClasssOnClick}
+        >
+          新增課堂
+        </Button>
+      </Box>
+      <CreateClassModal open={open} handleOpen={handleOpen} handleClose={handleClose} keepMounted/>
+      <ClassList classes={[]}/>
     </Dashboard>
   )
 }
