@@ -1,21 +1,25 @@
 import axios from 'axios'
 import * as React from 'react'
-import { Button, Box, Typography, Modal } from '@mui/material'
+import { Button, Box, Typography, Modal, TextField } from '@mui/material'
 
 export default function CreateClassModal({
+  Class,
   token,
   open,
   handleOpen,
   handleClose,
 }) {
+  const [tutorClass,setTutorClass] = React.useState({"startDateTime":"2022-04-28T13:25:32.000Z"})
+
+
   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '80%',
+    height: '50%',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   }
@@ -32,6 +36,7 @@ export default function CreateClassModal({
           <Typography id="modal-modal-title" variant="h6" component="h2">
             新增課堂
           </Typography>
+
           <Box
             component="form"
             onSubmit={(e) => {
@@ -41,8 +46,21 @@ export default function CreateClassModal({
             noValidate
             sx={{ mb: 2 }}
           >
-
             <Box>
+              <Box>
+                <TextField
+                  required
+                  fullWidth
+                  value={tutorClass.startDateTime}
+                  id="outlined-required"
+                  label="Description"
+                  name="description"
+                  onChange={(e) => {
+                    
+                  }}
+                />
+              </Box>
+
               <Button
                 type="submit"
                 style={{ marginRight: '10px' }}
