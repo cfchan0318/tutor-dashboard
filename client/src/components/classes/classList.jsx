@@ -4,6 +4,8 @@ import { DataGrid } from '@mui/x-data-grid'
 
 export default function ClassList({
   classes,
+  courses,
+  classrooms,
   handleUpdateOnClick,
   handleDeleteOnClick,
 }) {
@@ -44,7 +46,20 @@ export default function ClassList({
         )
       },
     },
-  ]
+  ];
+
+  const setUpClassList = () => { 
+    if (courses.length > 0 && classrooms.length>0) {
+      classes.forEach(Class => {
+        Class.course = courses.filter(course => course.id === Class.courseId)[0].description;
+        Class.classroom = classrooms.filter(classroom => classroom.id === Class.classroomId)[0].description;
+      });
+    }
+    console.log(classes);
+  }
+  React.useEffect(() => { 
+    setUpClassList()
+  },[courses,classrooms,classes]);
 
   return (
     <div style={{ display: 'flex', height: '800px' }}>
