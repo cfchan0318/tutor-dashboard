@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 //Database
 const db = require('./src/models');
 
-/*
+
 db.sequelize.sync({ force: true }).then(() => {
 
     //create default admin user
@@ -38,8 +38,9 @@ db.sequelize.sync({ force: true }).then(() => {
         })
     });
 });
-*/
 
+
+/*
 db.sequelize.sync()
     .then(() => {
 
@@ -59,6 +60,7 @@ db.sequelize.sync()
         });
 
     });
+*/
 console.log(process.env.DB_HOST);
 
 

@@ -1,4 +1,6 @@
 const db = require("../models");
+const Sequelize = db.Sequelize;
+const Student = db.students;
 const Class = db.classes;
 const Op = db.Sequelize.Op;
 
@@ -9,21 +11,32 @@ exports.create = (req, res) => {
     });
   } else {
     Class.create(req.body)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "error"
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "error"
+        });
       });
-    });
-   }
+  }
 }
 
 
 
 exports.findAll = (req, res) => {
-  Class.findAll()
+  Class.findAll({
+    attributes: {
+      include: [
+        [
+          Sequelize.literal(
+          '(SELECT COUNT(*) FROM class_student WHERE class_student.class_id = Class.id)'),
+          'studentCount'
+        ]
+      ]
+    }
+    
+  })
     .then(data => {
       if (data) {
         res.send(data);
@@ -37,7 +50,14 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Class.findByPk(id)
+  Class.findByPk(id, {
+    include: [
+      {
+        model: Student,
+        as: "students"
+      },
+    ]
+  })
     .then(data => {
       if (data) {
         res.send(data);
@@ -49,7 +69,7 @@ exports.findOne = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Class with id=" + id
+        message: "Error retrieving Class with id=" + id + err
       });
     });
 };
