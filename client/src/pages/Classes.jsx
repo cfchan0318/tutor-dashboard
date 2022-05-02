@@ -14,6 +14,7 @@ export default function Class(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
+    setClassId(0);
     getClasses();
   };
   
@@ -37,7 +38,7 @@ export default function Class(props) {
   }
 
   const handleDeleteOnClick = (event, cellValues)=>{
-    axios.delete('/api/classes' + cellValues.row.id, { headers: { Authorization: token } })
+    axios.delete('/api/classes/' + cellValues.row.id, { headers: { Authorization: token } })
       .then(response => {
         getClasses();
       })

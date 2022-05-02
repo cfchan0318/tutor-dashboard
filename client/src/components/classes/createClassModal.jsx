@@ -29,13 +29,32 @@ export default function CreateClassModal({
 
     return localISOTime
   }
-  
+
+  const formatDateTime = (datetime) => { 
+    return datetime.slice(0, -8);
+  }
+
+  const getCourseById = (id) =>{
+    let course = courses.filter(course => course.id = id)
+    return course[0];
+  }
+
+  const getClassroomById = (id) => { 
+    let classroom = classrooms.filter(classroom => classroom.id = id)
+    return classroom[0];
+  }
+
   //Form
   const [startDateTime, setStartDateTime] = React.useState(getCurrentDateTime())
   const [endDateTime, setEndDateTime] = React.useState(getCurrentDateTime())
   const [maxCapacity, setMaxCapacity] = React.useState(0);
-  const [courseId, setCourseId] = React.useState(0)
-  const [classroomId, setClassroomId] = React.useState(0)
+  const [courseId, setCourseId] = React.useState(0);
+  const [classroomId, setClassroomId] = React.useState(0);
+ 
+  //Modal
+  const [course, setCourse] = React.useState(null);
+  const [classroom, setClassroom] = React.useState(null);
+
 
   const style = {
     position: 'absolute',
@@ -51,19 +70,38 @@ export default function CreateClassModal({
 
   
   const handleSubmmit = () => {
-    const classToCreate = {
-      fromDateTime: startDateTime+':00.000Z',
-      toDateTime: endDateTime+':00.000Z',
-      maxCapacity: maxCapacity,
-      courseId: courseId,
-      classroomId: classroomId,
-    };
+    if (classId === 0) {
+      const classToCreate = {
+        fromDateTime: startDateTime+':00.000Z',
+        toDateTime: endDateTime+':00.000Z',
+        maxCapacity: maxCapacity,
+        courseId: courseId,
+        classroomId: classroomId,
+      };
+  
+      axios
+        .post('/api/classes', classToCreate, { headers: { Authorization: token } })
+        .then((response) => {
+          handleClose();
+        })
+    } else {
+      const classToUpdate = {
+        id: classId,
+        fromDateTime: startDateTime+':00.000Z',
+        toDateTime: endDateTime+':00.000Z',
+        maxCapacity: maxCapacity,
+        courseId: courseId,
+        classroomId: classroomId,
+      };
 
-    axios
-      .post('/api/classes', classToCreate, { headers: { Authorization: token } })
-      .then((response) => {
-        handleClose();
-      })
+      axios
+        .put('/api/classes/'+classId, classToUpdate, { headers: { Authorization: token } })
+        .then((response) => {
+          getClassById(classId);
+          handleClose();
+        })
+    }
+    
   }
 
   const getClassById = (id) => { 
@@ -71,24 +109,34 @@ export default function CreateClassModal({
       axios.get('/api/classes/' + id, { headers: { Authorization: token } })
       .then(response => { 
         const resClass = response.data;
-        setStartDateTime(resClass.startDateTime);
-        setEndDateTime(resClass.endDateTime);
+        setStartDateTime(formatDateTime(resClass.fromDateTime));
+        setEndDateTime(formatDateTime(resClass.toDateTime));
         setMaxCapacity(resClass.maxCapacity);
         setCourseId(resClass.courseId);
         setClassroomId(resClass.classroomId);
+        setCourse(getCourseById(resClass.courseId));
+        setClassroom(getClassroomById(resClass.classroomId));
+        
       })
     }
   }
 
   React.useEffect(() => {
-    getClassById();
+    getClassById(classId);
   }, [classId])
 
   return (
     <div>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          setCourse(null);
+          setClassroom(null);
+          setStartDateTime(getCurrentDateTime());
+          setEndDateTime(getCurrentDateTime());
+          setMaxCapacity(0);
+          handleClose();
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -105,7 +153,7 @@ export default function CreateClassModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  新增課堂 {classId}
+                  {classId === 0? "新增課堂" : "更新課堂"}
                 </Typography>
               </Grid>
 
@@ -165,10 +213,12 @@ export default function CreateClassModal({
                 <FormControl sx={{ minWidth: '100%' }}>
                   <Autocomplete
                     filterOptions={(x) => x}
+                    value={course}
                     id="combo-box-demo"
                     options={courses}
-                    getOptionLabel={(option) => option.description}
+                    getOptionLabel={(option) => option.description }
                     onChange={(event, selectedOption) => {
+                      setCourse(selectedOption);
                       setCourseId(selectedOption.id)
                     }}
                     sx={{ width: '100%' }}
@@ -184,9 +234,11 @@ export default function CreateClassModal({
                   <Autocomplete
                     filterOptions={(x) => x}
                     id="combo-box-demo"
+                    value={classroom}
                     options={classrooms}
                     getOptionLabel={(classroom) => classroom.description}
                     onChange={(event, selectedOption) => {
+                      setClassroom(selectedOption);
                       setClassroomId(selectedOption.id)
                     }}
                     sx={{ width: '100%' }}
@@ -204,7 +256,7 @@ export default function CreateClassModal({
                   variant="contained"
                   color="primary"
                 >
-                  新增課堂
+                  {classId === 0 ? "新增課堂" : "更新課堂"}
                 </Button>
               </Grid>
             </Grid>

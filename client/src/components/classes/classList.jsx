@@ -55,7 +55,6 @@ export default function ClassList({
         Class.classroom = classrooms.filter(classroom => classroom.id === Class.classroomId)[0].description;
       });
     }
-    console.log(classes);
   }
   React.useEffect(() => { 
     setUpClassList()
