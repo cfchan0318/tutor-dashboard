@@ -14,7 +14,6 @@ export default function Class(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setClassId(0);
     getClasses();
   };
   

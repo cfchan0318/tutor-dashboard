@@ -20,7 +20,7 @@ exports.create = (req, res) => {
         });
       } else {
 
-        const subject = { description: req.body.description }
+        const subject = req.body;
 
         Course.create(subject)
           .then(data => {

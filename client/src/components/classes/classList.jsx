@@ -10,6 +10,7 @@ export default function ClassList({
   handleDeleteOnClick,
 }) {
   const columns = [
+    { field: 'description', headerName: '描述', flex: 1 },
     { field: 'course', headerName: '課程', flex: 1 },
     { field: 'classroom', headerName: '班房', flex: 1 },
     { field: 'fromDateTime', headerName: '開始於', flex: 1 },
@@ -34,6 +35,17 @@ export default function ClassList({
             </Button>
 
             <Button
+              style={{ marginRight: '10px' }}
+              variant="contained"
+              color="primary"
+              onClick={(event) => {
+                handleUpdateOnClick(event, cellValues)
+              }}
+            >
+              詳情
+            </Button>
+
+            <Button
               variant="contained"
               color="error"
               onClick={(event) => {
@@ -46,29 +58,42 @@ export default function ClassList({
         )
       },
     },
-  ];
+  ]
 
-  const setUpClassList = () => { 
-    if (courses.length > 0 && classrooms.length>0) {
-      classes.forEach(Class => {
-        Class.course = courses.filter(course => course.id === Class.courseId)[0].description;
-        Class.classroom = classrooms.filter(classroom => classroom.id === Class.classroomId)[0].description;
-      });
+  const setUpClassList = () => {
+    if ( courses.length > 0 && classrooms.length > 0) {
+      classes.forEach((Class) => {
+        console.log(courses);
+        console.log(Class)
+        Class.courseId?
+          Class.course = courses.filter((course) => course.id === Class.courseId)[0].description :
+          Class.course = '';
+
+        Class.classroomId?
+          Class.classroom = classrooms.filter((classroom) => classroom.id === Class.classroomId)[0].description :
+          Class.classroom = '';
+
+      })
     }
   }
-  React.useEffect(() => { 
-    setUpClassList()
-  },[courses,classrooms,classes]);
 
-  return (
-    <div style={{ display: 'flex', height: '800px' }}>
-      <div style={{ flexGrow: 1 }}>
-        <DataGrid
-          getRowId={(classes) => classes.id}
-          rows={classes}
-          columns={columns}
-        />
+  React.useEffect(() => {
+    setUpClassList()
+  }, [courses, classrooms, classes])
+
+  if (classes.length > 0) {
+    return (
+      <div style={{ display: 'flex', height: '800px' }}>
+        <div style={{ flexGrow: 1 }}>
+          <DataGrid
+            getRowId={(classes) => classes.id}
+            rows={classes}
+            columns={columns}
+          />
+        </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return <div></div>
+  }
 }

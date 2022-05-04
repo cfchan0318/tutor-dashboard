@@ -1,7 +1,11 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
-    const Class = sequelize.define("class",{
+    const Class = sequelize.define("class", {
+        description:{
+            type: Sequelize.STRING,
+            allowNull:false
+        },
         fromDateTime:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
