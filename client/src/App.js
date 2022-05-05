@@ -36,7 +36,7 @@ function App() {
       <Route path="/students" element={localStorage.getItem('IsLoggedIn') ? <Students logoutOnClick={logout} /> : <Navigate to="/login" />} />
       <Route path="/courses" element={localStorage.getItem('IsLoggedIn') ? <Courses logoutOnClick={logout} /> : <Navigate to="/login" />} />
       <Route path="/classes" element={localStorage.getItem('IsLoggedIn') ? <Classes logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/classes/:classId" element={localStorage.getItem('IsLoggedIn') ? <ClassDetails logoutOnClick={logout} /> : <Navigate to="/login" />}  />
+      <Route path="/classes/:id" element={localStorage.getItem('IsLoggedIn') ? <ClassDetails logoutOnClick={logout} /> : <Navigate to="/login" />}  />
     </Routes>
 
 
