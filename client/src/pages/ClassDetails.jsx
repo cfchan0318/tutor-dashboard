@@ -4,20 +4,10 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const ClassDetails = (props) => {
-  let { id } = useParams()
-  const [classId, setClassId] = React.useState(id)
+  //auth
+  const token = localStorage.getItem('token')
 
-  //Form
-  const [description, setDescription] = React.useState('')
-  const [startDateTime, setStartDateTime] = React.useState(getCurrentDateTime())
-  const [endDateTime, setEndDateTime] = React.useState(getCurrentDateTime())
-  const [maxCapacity, setMaxCapacity] = React.useState(0)
-  const [courseId, setCourseId] = React.useState(0)
-    const [classroomId, setClassroomId] = React.useState(0)
-    
-    //Modal
-  const [course, setCourse] = React.useState(null)
-  const [classroom, setClassroom] = React.useState(null)
+  let { id } = useParams()
 
   const getCurrentDateTime = () => {
     var tzoffset = -480 * 60000 //offset in milliseconds
@@ -28,16 +18,48 @@ const ClassDetails = (props) => {
     return localISOTime
   }
 
-    const getCourseById = (id) => { }
-    const getClassById = (id) => { }
+  const [classId, setClassId] = React.useState(id)
 
-    
+  //Form
+  const [description, setDescription] = React.useState('')
+  const [startDateTime, setStartDateTime] = React.useState(getCurrentDateTime())
+  const [endDateTime, setEndDateTime] = React.useState(getCurrentDateTime())
+  const [maxCapacity, setMaxCapacity] = React.useState(0)
+  const [courseId, setCourseId] = React.useState(0)
+  const [classroomId, setClassroomId] = React.useState(0)
+
+  //Modal
+  const [course, setCourse] = React.useState(null)
+  const [classroom, setClassroom] = React.useState(null)
+
+  
+
+  const formatDateTime = (datetime) => {
+    return datetime.slice(0, -8)
+  }
+
+
+  const getCourseById = (id) => {
+    axios.get('/api/courses/' + id, { headers: { Authorization: token } })
+      .then((response) => {
+        return response.description;
+       })
+  }
+
+  
+  const getClassroomById = (id) => {
+    axios.get('/api/classrooms/' + id, { headers: { Authorization: token } })
+      .then((response) => {
+        return response.description;
+       })
+  }
+  const getClassById = (id) => {
     if (id !== 0) {
       axios
         .get('/api/classes/' + id, { headers: { Authorization: token } })
         .then((response) => {
-          const resClass = response.data;
-          setDescription(resClass.description);
+          const resClass = response.data
+          setDescription(resClass.description)
           setStartDateTime(formatDateTime(resClass.fromDateTime))
           setEndDateTime(formatDateTime(resClass.toDateTime))
           setMaxCapacity(resClass.maxCapacity)
@@ -47,10 +69,15 @@ const ClassDetails = (props) => {
           setClassroom(getClassroomById(resClass.classroomId))
         })
     }
-  }
+   }
+  
+
   React.useEffect(() => {
     setClassId(id)
-  }, [id])
+    getClassById(classId);
+  }, [id, classId])
+  
+
   return (
     <Dashboard>
       <div>Class Details: {classId}</div>
