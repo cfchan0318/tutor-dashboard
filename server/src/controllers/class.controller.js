@@ -55,8 +55,17 @@ exports.findOne = (req, res) => {
       {
         model: Student,
         as: "students"
-      },
-    ]
+      }
+    ],
+    attributes: {
+      include: [
+        [
+          Sequelize.literal(
+          '(SELECT COUNT(*) FROM class_student WHERE class_student.class_id = Class.id)'),
+          'studentCount'
+        ]
+      ]
+    }
   })
     .then(data => {
       if (data) {

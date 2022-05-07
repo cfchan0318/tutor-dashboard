@@ -1,6 +1,7 @@
 import React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
 import { useParams } from 'react-router-dom'
+import { Typography, Grid } from '@mui/material'
 import axios from 'axios'
 
 const ClassDetails = (props) => {
@@ -24,13 +25,17 @@ const ClassDetails = (props) => {
   const [description, setDescription] = React.useState('')
   const [startDateTime, setStartDateTime] = React.useState(getCurrentDateTime())
   const [endDateTime, setEndDateTime] = React.useState(getCurrentDateTime())
+  const [studentCount, setStudentCount] = React.useState(0);
   const [maxCapacity, setMaxCapacity] = React.useState(0)
   const [courseId, setCourseId] = React.useState(0)
   const [classroomId, setClassroomId] = React.useState(0)
+  
 
   //Modal
   const [course, setCourse] = React.useState(null)
   const [classroom, setClassroom] = React.useState(null)
+
+  const [students, setStudents] = React.useState([]);
 
   
 
@@ -40,10 +45,11 @@ const ClassDetails = (props) => {
 
 
   const getCourseById = (id) => {
+
     axios.get('/api/courses/' + id, { headers: { Authorization: token } })
       .then((response) => {
         return response.description;
-       })
+      })
   }
 
   
@@ -62,6 +68,7 @@ const ClassDetails = (props) => {
           setDescription(resClass.description)
           setStartDateTime(formatDateTime(resClass.fromDateTime))
           setEndDateTime(formatDateTime(resClass.toDateTime))
+          setStudentCount(resClass.studentCount)
           setMaxCapacity(resClass.maxCapacity)
           setCourseId(resClass.courseId)
           setClassroomId(resClass.classroomId)
@@ -80,7 +87,20 @@ const ClassDetails = (props) => {
 
   return (
     <Dashboard>
-      <div>Class Details: {classId}</div>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h4">課堂詳情: {course} - {description}</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="body1">上課時間: 由 {startDateTime} 至 {endDateTime}</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="body1">學生人數: {studentCount} / {maxCapacity}</Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="body1">課室: {classroom}</Typography>
+        </Grid>
+      </Grid>
     </Dashboard>
   )
 }
