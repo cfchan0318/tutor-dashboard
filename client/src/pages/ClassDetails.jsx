@@ -1,7 +1,9 @@
 import React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
 import { useParams } from 'react-router-dom'
-import { Typography, Grid } from '@mui/material'
+import { Typography, Grid } from '@mui/material';
+import ClassStudentList from '../components/classDetails/ClassStudentList';
+import ClassStudentModal from '../components/classDetails/ClassStudentModal';
 import axios from 'axios'
 
 const ClassDetails = (props) => {
@@ -74,6 +76,7 @@ const ClassDetails = (props) => {
           setClassroomId(resClass.classroomId)
           setCourse(getCourseById(resClass.courseId))
           setClassroom(getClassroomById(resClass.classroomId))
+          setStudents(resClass.students)
         })
     }
    }
@@ -87,6 +90,7 @@ const ClassDetails = (props) => {
 
   return (
     <Dashboard>
+      <ClassStudentModal/>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h4">課堂詳情: {course} - {description}</Typography>
@@ -99,6 +103,9 @@ const ClassDetails = (props) => {
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">課室: {classroom}</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <ClassStudentList students={students}/>
         </Grid>
       </Grid>
     </Dashboard>
