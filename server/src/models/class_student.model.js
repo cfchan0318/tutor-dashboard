@@ -1,23 +1,17 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
-    const Class = sequelize.define("class",{
-        fromDateTime:{
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false
+    const ClassStudent = sequelize.define("class_student",{
+        
+        hasPayment:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
-        toDateTime:{
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false
-        },
-        maxCapacity:{
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
+        paymentRef: {
+            type: DataTypes.STRING,
         }
 
     });
 
-    return Class;
+    return ClassStudent;
 };

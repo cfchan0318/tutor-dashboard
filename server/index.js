@@ -38,9 +38,11 @@ db.sequelize.sync({ force: true }).then(() => {
         })
     });
 });
-
-
 */
+
+
+
+
 db.sequelize.sync()
     .then(() => {
 
@@ -76,6 +78,7 @@ const subjectRoute = require("./src/routes/subjects");
 const studentRoute = require("./src/routes/student");
 const courseRoute = require("./src/routes/courses");
 const classRoute = require("./src/routes/classes");
+const classStudentRoute = require('./src/routes/classStudent');
 
 //Router setup
 app.use('/api/users', userRoute);
@@ -86,6 +89,7 @@ app.use('/api/subjects', subjectRoute);
 app.use('/api/students', studentRoute);
 app.use('/api/courses', courseRoute);
 app.use('/api/classes', classRoute);
+app.use('/api/classStudents', classStudentRoute);
 
 
 app.use('/', indexRoute);

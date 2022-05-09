@@ -23,7 +23,7 @@ const ClassDetails = (props) => {
 
   const [classId, setClassId] = React.useState(id)
 
-  //Form
+ 
   const [description, setDescription] = React.useState('')
   const [startDateTime, setStartDateTime] = React.useState(getCurrentDateTime())
   const [endDateTime, setEndDateTime] = React.useState(getCurrentDateTime())
@@ -74,8 +74,8 @@ const ClassDetails = (props) => {
           setMaxCapacity(resClass.maxCapacity)
           setCourseId(resClass.courseId)
           setClassroomId(resClass.classroomId)
-          setCourse(getCourseById(resClass.courseId))
-          setClassroom(getClassroomById(resClass.classroomId))
+          setCourse(getCourseById(courseId))
+          setClassroom(getClassroomById(classroomId))
           setStudents(resClass.students)
         })
     }

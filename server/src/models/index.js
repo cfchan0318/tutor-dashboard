@@ -23,6 +23,7 @@ db.subjects = require("./subject.model")(sequelize, Sequelize);
 db.students = require("./student/student.model")(sequelize, Sequelize);
 db.courses = require("./course.model")(sequelize, Sequelize);
 db.classes = require("./class.model")(sequelize, Sequelize);
+db.ClassStudent = require("./class_student.model")(sequelize, Sequelize);
 
 //Relations - schools classrooms 1 to many
 db.schools.hasMany(db.classrooms, { as: 'classrooms' });
@@ -46,13 +47,13 @@ db.classes.belongsTo(db.classrooms);
 
 //Relation - class - student - M-M
 db.classes.belongsToMany(db.students, {
-    through: "class_student",
+    through: db.ClassStudent,
     as: "students",
     foreignKey: "class_id",
 });
 
 db.students.belongsToMany(db.classes, {
-    through: "class_student",
+    through: db.ClassStudent,
     as: "classes",
     foreignKey: "student_id"
 });
