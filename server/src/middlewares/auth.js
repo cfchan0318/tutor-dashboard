@@ -20,7 +20,7 @@ function verifyToken(req, res, next) {
         jwt.verify(bearerToken, 'secret', (err, authData) => {
             if (err) {
                 //console.log(req);
-                res.send(err);
+                res.status(401).send(err);
             } else {
                 req.authData = authData;
                 next();

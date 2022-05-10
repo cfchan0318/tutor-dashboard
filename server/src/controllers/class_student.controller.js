@@ -45,8 +45,7 @@ exports.update = (req, res) => {
     const classId = req.body.class_id;
     const studentId = req.body.student_id;
 
-    classStudent.create(req.body)
-        .update(req.body, {
+    classStudent.update(req.body, {
             where: {
                 class_id: classId,
                 student_id: studentId

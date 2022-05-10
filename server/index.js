@@ -82,7 +82,7 @@ const classStudentRoute = require('./src/routes/classStudent');
 
 //Router setup
 app.use('/api/users', userRoute);
-app.use('/api/login', authRoute);
+app.use('/api/auth', authRoute);
 app.use('/api/schools',schoolRoute);
 app.use('/api/classrooms',classroomRoute);
 app.use('/api/subjects', subjectRoute);

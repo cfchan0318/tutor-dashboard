@@ -25,7 +25,7 @@ export default function SignIn() {
       password: password,
     }
 
-    fetch('/api/login', {
+    fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

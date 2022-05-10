@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 //Page
 import Home from "./pages/Home";
@@ -24,19 +25,30 @@ function App() {
     navigate('/login');
   }
 
+  const token = localStorage.getItem('token');
+  const isLoggedIn = localStorage.getItem('IsLoggedIn');
+
+  React.useEffect(() => { 
+    axios
+      .get('/api', { headers: { Authorization: token } })
+      .then(response => {
+        console.log("ok");
+      })
+      .catch(error => {logout();})
+  },[])
 
   return (
     <Routes>
-      <Route path="/login" element={localStorage.getItem('IsLoggedIn') ? <Navigate to="/" /> : <Login />} />
-      <Route path="/" element={localStorage.getItem('IsLoggedIn') ? <Home logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/users" element={localStorage.getItem('IsLoggedIn') ? <Users logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/schools" element={localStorage.getItem('IsLoggedIn') ? <Schools logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/classrooms" element={localStorage.getItem('IsLoggedIn') ? <Classrooms logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/subjects" element={localStorage.getItem('IsLoggedIn') ? <Subjects logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/students" element={localStorage.getItem('IsLoggedIn') ? <Students logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/courses" element={localStorage.getItem('IsLoggedIn') ? <Courses logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/classes" element={localStorage.getItem('IsLoggedIn') ? <Classes logoutOnClick={logout} /> : <Navigate to="/login" />} />
-      <Route path="/classes/:id" element={localStorage.getItem('IsLoggedIn') ? <ClassDetails logoutOnClick={logout} /> : <Navigate to="/login" />}  />
+      <Route path="/login" element={ <Login />} />
+      <Route path="/" element={<Home logoutOnClick={logout}/> }/>
+      <Route path="/users" element={<Users logoutOnClick={logout} /> } />
+      <Route path="/schools" element={<Schools logoutOnClick={logout} />} />
+      <Route path="/classrooms" element={<Classrooms logoutOnClick={logout} /> } />
+      <Route path="/subjects" element={<Subjects logoutOnClick={logout} />} />
+      <Route path="/students" element={<Students logoutOnClick={logout} /> } />
+      <Route path="/courses" element={<Courses logoutOnClick={logout} />} />
+      <Route path="/classes" element={<Classes logoutOnClick={logout} /> } />
+      <Route path="/classes/:id" element={<ClassDetails logoutOnClick={logout} />}  />
     </Routes>
 
 

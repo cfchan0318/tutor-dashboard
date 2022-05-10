@@ -7,7 +7,9 @@ const User = db.users;
 const bcrypt = require('bcrypt');
 
 
-router.post('/', (req, res) => {
+
+
+router.post('/login', (req, res) => {
     let user = {};
 
     const username = "" || req.body.username;

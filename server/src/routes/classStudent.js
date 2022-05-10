@@ -15,7 +15,7 @@ router.post("/", auth.verifyToken, (req, res) => {
     classStudent.create(req, res);
 });
 
-router.put('/:id', auth.verifyToken, (req, res) => {
+router.put('/', auth.verifyToken, (req, res) => {
     classStudent.update(req, res);
 }); 
 

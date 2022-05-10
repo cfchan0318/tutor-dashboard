@@ -30,7 +30,7 @@ exports.findAll = (req, res) => {
       include: [
         [
           Sequelize.literal(
-          '(SELECT COUNT(*) FROM class_student WHERE class_student.class_id = Class.id)'),
+          '(SELECT COUNT(*) FROM class_students WHERE class_students.class_id = Class.id)'),
           'studentCount'
         ]
       ]
