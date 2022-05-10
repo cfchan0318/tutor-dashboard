@@ -89,7 +89,7 @@ const ClassDetails = (props) => {
   
 
   return (
-    <Dashboard>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <ClassStudentModal/>
       <Grid container spacing={2}>
         <Grid item xs={12}>

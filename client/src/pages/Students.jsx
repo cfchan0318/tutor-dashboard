@@ -66,7 +66,7 @@ export default function Student(props) {
   },[])
 
   return (
-    <Dashboard>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Box sx={{ mb: 1 }}>
         <Typography variant="h4">學生</Typography>
         

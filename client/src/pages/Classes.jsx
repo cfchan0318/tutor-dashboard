@@ -73,7 +73,7 @@ export default function Class(props) {
   },[])
 
   return (
-    <Dashboard>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Typography variant="h4" gutterBottom>
         課堂管理
       </Typography>

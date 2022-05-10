@@ -19,7 +19,7 @@ function App() {
   const navigate = useNavigate();
 
   function logout() {
-
+    console.log("logout")
     localStorage.removeItem('token');
     localStorage.removeItem('IsLoggedIn');
     navigate('/login');

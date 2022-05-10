@@ -130,7 +130,7 @@ export default function Classrooms(props) {
   }, [schools])
 
   return (
-    <Dashboard>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <ClassroomForm
         id={id}
         schoolId={schoolId}

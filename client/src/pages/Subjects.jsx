@@ -77,7 +77,7 @@ export default function Subject(props) {
   }, [])
 
   return (
-    <Dashboard>
+    <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <SubjectForm
         subjectId={subjectId}
         subjectDesc={subjectDesc}
