@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
+import { useNavigate } from 'react-router-dom';
 
 export default function ClassList({
   classes,
@@ -9,6 +10,8 @@ export default function ClassList({
   handleUpdateOnClick,
   handleDeleteOnClick,
 }) {
+  const navigate = useNavigate();
+
   const columns = [
     { field: 'description', headerName: '描述', flex: 1 },
     { field: 'course', headerName: '課程', flex: 1 },
@@ -39,7 +42,8 @@ export default function ClassList({
               variant="contained"
               color="primary"
               onClick={(event) => {
-                handleUpdateOnClick(event, cellValues)
+                navigate('/classes/'+cellValues.row.id)
+      
               }}
             >
               詳情

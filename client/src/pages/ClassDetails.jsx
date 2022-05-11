@@ -1,9 +1,9 @@
 import React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
 import { useParams } from 'react-router-dom'
-import { Typography, Grid } from '@mui/material';
-import ClassStudentList from '../components/classDetails/ClassStudentList';
-import ClassStudentModal from '../components/classDetails/ClassStudentModal';
+import { Typography, Grid, Box, Button } from '@mui/material'
+import ClassStudentList from '../components/classDetails/ClassStudentList'
+import ClassStudentModal from '../components/classDetails/ClassStudentModal'
 import axios from 'axios'
 
 const ClassDetails = (props) => {
@@ -23,43 +23,40 @@ const ClassDetails = (props) => {
 
   const [classId, setClassId] = React.useState(id)
 
- 
   const [description, setDescription] = React.useState('')
   const [startDateTime, setStartDateTime] = React.useState(getCurrentDateTime())
   const [endDateTime, setEndDateTime] = React.useState(getCurrentDateTime())
-  const [studentCount, setStudentCount] = React.useState(0);
+  const [studentCount, setStudentCount] = React.useState(0)
   const [maxCapacity, setMaxCapacity] = React.useState(0)
   const [courseId, setCourseId] = React.useState(0)
   const [classroomId, setClassroomId] = React.useState(0)
+  const [classStudents, setClassStudents] = React.useState([])
   
-
   //Modal
+  const [open, setOpen] = React.useState(false)
   const [course, setCourse] = React.useState(null)
   const [classroom, setClassroom] = React.useState(null)
-
-  const [students, setStudents] = React.useState([]);
-
+  
   
 
   const formatDateTime = (datetime) => {
     return datetime.slice(0, -8)
   }
 
-
   const getCourseById = (id) => {
-
-    axios.get('/api/courses/' + id, { headers: { Authorization: token } })
+    axios
+      .get('/api/courses/' + id, { headers: { Authorization: token } })
       .then((response) => {
-        return response.description;
+        return response.description
       })
   }
 
-  
   const getClassroomById = (id) => {
-    axios.get('/api/classrooms/' + id, { headers: { Authorization: token } })
+    axios
+      .get('/api/classrooms/' + id, { headers: { Authorization: token } })
       .then((response) => {
-        return response.description;
-       })
+        return response.description
+      })
   }
   const getClassById = (id) => {
     if (id !== 0) {
@@ -76,36 +73,55 @@ const ClassDetails = (props) => {
           setClassroomId(resClass.classroomId)
           setCourse(getCourseById(courseId))
           setClassroom(getClassroomById(classroomId))
-          setStudents(resClass.students)
+          setClassStudents(resClass.students)
         })
     }
-   }
-  
+  }
 
   React.useEffect(() => {
     setClassId(id)
-    getClassById(classId);
+    getClassById(classId)
   }, [id, classId])
-  
 
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
-      <ClassStudentModal/>
+      <ClassStudentModal open={open} token={token} handleClose={()=>{setOpen(false)}}/>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4">課堂詳情: {course} - {description}</Typography>
+          <Typography variant="h4">
+            課堂詳情: {course} - {description}
+          </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="body1">上課時間: 由 {startDateTime} 至 {endDateTime}</Typography>
+          <Typography variant="body1">
+            上課時間: 由 {startDateTime} 至 {endDateTime}
+          </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="body1">學生人數: {studentCount} / {maxCapacity}</Typography>
+          <Typography variant="body1">
+            學生人數: {studentCount} / {maxCapacity}
+          </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">課室: {classroom}</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ClassStudentList students={students}/>
+          <Box>
+            <Button
+              type="submit"
+              style={{ marginRight: '10px' }}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setOpen(true)
+              }}
+            >
+              新增課堂
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <ClassStudentList students={classStudents} />
         </Grid>
       </Grid>
     </Dashboard>

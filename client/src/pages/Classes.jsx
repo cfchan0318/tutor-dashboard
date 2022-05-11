@@ -5,9 +5,12 @@ import ClassList from '../components/classes/classList'
 import CreateClassModal from '../components/classes/createClassModal'
 import { Box, Button, Typography } from '@mui/material'
 
+
 export default function Class(props) {
   //auth
   const token = localStorage.getItem('token');
+
+  
 
   //Modal
   const [open, setOpen] = React.useState(false);

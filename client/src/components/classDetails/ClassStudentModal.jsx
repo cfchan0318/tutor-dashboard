@@ -12,23 +12,39 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material'
+import axios from 'axios'
 
-const ClassStudentModal = ({ students, open, handleClose, handleSubmmit }) => {
+const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
   const [studentId, setStudentId] = React.useState(0)
+  const [student, setStudent] = React.useState({});
   const [hasPayment, setHasPayment] = React.useState(false)
   const [paymentRef, setPaymentRef] = React.useState('')
+  const [students, setStudents] = React.useState([]);
+
 
   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '80%',
+    width: '500px',
 
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
   }
+
+  const getStudents = () => {
+    axios.get('/api/students', { headers: { Authorization: token } })
+      .then(response => { 
+        setStudents(response.data);
+      })
+  }
+  React.useEffect(() => {
+    getStudents();
+    setStudent(students[0]);
+  },[]);
+
   return (
     <div>
       <Modal
@@ -61,11 +77,13 @@ const ClassStudentModal = ({ students, open, handleClose, handleSubmmit }) => {
                   <FormControl sx={{ minWidth: '100%' }}>
                     <Autocomplete
                       filterOptions={(x) => x}
-                      value={studentId}
+                      value={student}
                       id="combo-box-demo"
                       options={students}
-                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(option, value) => { }}
+                      getOptionLabel={(option) => option.name || ""}
                       onChange={(event, selectedOption) => {
+                        setStudent(selectedOption.name);
                         setStudentId(selectedOption.id)
                       }}
                       sx={{ width: '100%' }}
@@ -82,7 +100,7 @@ const ClassStudentModal = ({ students, open, handleClose, handleSubmmit }) => {
               <Grid item xs={4}>
                 <FormGroup>
                   <FormControlLabel
-                    control={<Checkbox onClick={console.log('123')} />}
+                    control={<Checkbox onClick={()=>{}} />}
                     label="已付款?"
                   />
                 </FormGroup>
