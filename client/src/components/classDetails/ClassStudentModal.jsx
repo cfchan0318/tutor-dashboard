@@ -14,14 +14,17 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 
-const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
-  const [studentId, setStudentId] = React.useState(0)
-  const [students, setStudents] = React.useState([]);
-  const [student, setStudent] = React.useState(students[0]);
+const ClassStudentModal = ({
+  token,
+  open,
+  handleClose,
+  classId,
+  studentId,
+}) => {
+  const [students, setStudents] = React.useState([])
+  const [student, setStudent] = React.useState(students[0])
   const [hasPayment, setHasPayment] = React.useState(false)
   const [paymentRef, setPaymentRef] = React.useState('')
- 
-
 
   const style = {
     position: 'absolute',
@@ -36,17 +39,32 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
   }
 
   const getStudents = async () => {
-    axios.get('/api/students', { headers: { Authorization: token } })
-      .then(response => { 
-        setStudents(response.data);
-      })
-      .then(() => {
-        setStudent(students[0].name)
+    axios
+      .get('/api/students', { headers: { Authorization: token } })
+      .then((response) => {
+        setStudents(response.data)
       })
   }
+
+  const handleSubmitOnClick = () => {
+    let classStudent = {
+      class_id: classId,
+      student_id: student.id,
+      hasPayment: hasPayment,
+      paymentRef: paymentRef,
+    }
+    axios.post('/api/classStudents', classStudent, { headers: { Authorization: token } })
+      .then(response => {
+        handleClose();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   React.useEffect(() => {
-    getStudents();
-  },[]);
+    getStudents()
+  }, [])
 
   return (
     <div>
@@ -62,7 +80,7 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
           component="form"
           onSubmit={(e) => {
             e.preventDefault()
-            handleSubmmit()
+            handleSubmitOnClick()
           }}
           noValidate
           sx={{ mb: 2 }}
@@ -71,7 +89,7 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                  {studentId === 0 ? '新增學生課堂資料' : '更新學生課堂資料'}
+                  {studentId === 0 ? '新增學生至課堂' : '更新學生課堂資料'}
                 </Typography>
               </Grid>
 
@@ -80,14 +98,13 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
                   <FormControl sx={{ minWidth: '100%' }}>
                     <Autocomplete
                       filterOptions={(x) => x}
-                      value={student||null}
+                      value={student || null}
                       id="combo-box-demo"
                       options={students}
-                      isOptionEqualToValue={(option, value) => option.name === value}
-                      getOptionLabel={(option) => option.name || ""}
+                      isOptionEqualToValue={(option, value) => option === value}
+                      getOptionLabel={(option) => option.name || ''}
                       onChange={(event, selectedOption) => {
-                        setStudent(selectedOption);
-                        
+                        setStudent(selectedOption)
                       }}
                       sx={{ width: '100%' }}
                       renderInput={(params) => (
@@ -103,7 +120,14 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
               <Grid item xs={4}>
                 <FormGroup>
                   <FormControlLabel
-                    control={<Checkbox onClick={()=>{}} />}
+                    control={
+                      <Checkbox
+                        value={hasPayment}
+                        onClick={() => {
+                          setHasPayment(!hasPayment)
+                        }}
+                      />
+                    }
                     label="已付款?"
                   />
                 </FormGroup>
@@ -133,7 +157,7 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
                   variant="contained"
                   color="primary"
                 >
-                  {studentId === 0 ? '新增學生課堂資料' : '更新學生課堂資料'}
+                  {studentId === 0 ? '新增學生至課堂' : '更新學生課堂資料'}
                 </Button>
               </Grid>
             </Grid>

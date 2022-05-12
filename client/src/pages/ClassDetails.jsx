@@ -32,13 +32,14 @@ const ClassDetails = (props) => {
   const [classroomId, setClassroomId] = React.useState(0)
   const [classStudents, setClassStudents] = React.useState([])
   
-  //Modal
+  //State - Modal
+  const [studentId, setStudentId] = React.useState();
   const [open, setOpen] = React.useState(false)
   const [course, setCourse] = React.useState('')
   const [classroom, setClassroom] = React.useState('')
   
   
-
+  // Page Data Setup
   const formatDateTime = (datetime) => {
     return datetime.slice(0, -8)
   }
@@ -78,6 +79,11 @@ const ClassDetails = (props) => {
     }
   }
 
+  //Class Student List
+  const updateOnClick = (event, cellValues) => { 
+
+  }
+
   React.useEffect(() => {
     setClassId(id)
     getClassById(classId)    
@@ -85,7 +91,7 @@ const ClassDetails = (props) => {
 
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
-      <ClassStudentModal open={open} token={token} handleClose={()=>{setOpen(false)}}/>
+      <ClassStudentModal open={open} classId={classId} token={token} handleClose={() => { setOpen(false); getClassById(classId)}}/>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h4">
@@ -121,7 +127,7 @@ const ClassDetails = (props) => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <ClassStudentList students={classStudents} />
+          <ClassStudentList students={classStudents} updateOnClick={ updateOnClick()}/>
         </Grid>
       </Grid>
     </Dashboard>
