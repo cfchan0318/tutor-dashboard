@@ -14,8 +14,7 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 
-const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
-  const [studentId, setStudentId] = React.useState(0)
+const ClassStudentModal = ({token,open,studentId, handleClose, handleSubmmit }) => {
   const [student, setStudent] = React.useState({});
   const [hasPayment, setHasPayment] = React.useState(false)
   const [paymentRef, setPaymentRef] = React.useState('')
@@ -83,8 +82,8 @@ const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
                       isOptionEqualToValue={(option, value) => { }}
                       getOptionLabel={(option) => option.name || ""}
                       onChange={(event, selectedOption) => {
-                        setStudent(selectedOption.name);
-                        setStudentId(selectedOption.id)
+                        setStudent(selectedOption);
+                        
                       }}
                       sx={{ width: '100%' }}
                       renderInput={(params) => (
