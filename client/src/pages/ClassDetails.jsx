@@ -34,8 +34,8 @@ const ClassDetails = (props) => {
   
   //Modal
   const [open, setOpen] = React.useState(false)
-  const [course, setCourse] = React.useState(null)
-  const [classroom, setClassroom] = React.useState(null)
+  const [course, setCourse] = React.useState('')
+  const [classroom, setClassroom] = React.useState('')
   
   
 
@@ -43,19 +43,19 @@ const ClassDetails = (props) => {
     return datetime.slice(0, -8)
   }
 
-  const getCourseById = (id) => {
+  const getCourseById = async (id) => {
     axios
       .get('/api/courses/' + id, { headers: { Authorization: token } })
       .then((response) => {
-        return response.description
+        setCourse(response.data);
       })
   }
 
-  const getClassroomById = (id) => {
+  const getClassroomById = async (id) => {
     axios
       .get('/api/classrooms/' + id, { headers: { Authorization: token } })
       .then((response) => {
-        return response.description
+        setClassroom(response.data);
       })
   }
   const getClassById = (id) => {
@@ -63,7 +63,7 @@ const ClassDetails = (props) => {
       axios
         .get('/api/classes/' + id, { headers: { Authorization: token } })
         .then((response) => {
-          const resClass = response.data
+          const resClass = response.data;
           setDescription(resClass.description)
           setStartDateTime(formatDateTime(resClass.fromDateTime))
           setEndDateTime(formatDateTime(resClass.toDateTime))
@@ -71,17 +71,17 @@ const ClassDetails = (props) => {
           setMaxCapacity(resClass.maxCapacity)
           setCourseId(resClass.courseId)
           setClassroomId(resClass.classroomId)
-          setCourse(getCourseById(courseId))
-          setClassroom(getClassroomById(classroomId))
           setClassStudents(resClass.students)
+          getCourseById(resClass.courseId)
+          getClassroomById(resClass.classroomId)        
         })
     }
   }
 
   React.useEffect(() => {
     setClassId(id)
-    getClassById(classId)
-  }, [id, classId])
+    getClassById(classId)    
+  }, [])
 
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
@@ -89,7 +89,7 @@ const ClassDetails = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h4">
-            課堂詳情: {course} - {description}
+            課堂詳情: {course.description} - {description}
           </Typography>
         </Grid>
         <Grid item xs={4}>
@@ -103,7 +103,7 @@ const ClassDetails = (props) => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="body1">課室: {classroom}</Typography>
+          <Typography variant="body1">課室: {classroom.description}</Typography>
         </Grid>
         <Grid item xs={12}>
           <Box>
@@ -116,7 +116,7 @@ const ClassDetails = (props) => {
                 setOpen(true)
               }}
             >
-              新增課堂
+              新增學生
             </Button>
           </Box>
         </Grid>

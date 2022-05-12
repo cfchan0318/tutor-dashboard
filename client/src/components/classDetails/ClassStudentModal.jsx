@@ -14,11 +14,13 @@ import {
 } from '@mui/material'
 import axios from 'axios'
 
-const ClassStudentModal = ({token,open,studentId, handleClose, handleSubmmit }) => {
-  const [student, setStudent] = React.useState({});
+const ClassStudentModal = ({token,open, handleClose, handleSubmmit }) => {
+  const [studentId, setStudentId] = React.useState(0)
+  const [students, setStudents] = React.useState([]);
+  const [student, setStudent] = React.useState(students[0]);
   const [hasPayment, setHasPayment] = React.useState(false)
   const [paymentRef, setPaymentRef] = React.useState('')
-  const [students, setStudents] = React.useState([]);
+ 
 
 
   const style = {
@@ -33,15 +35,17 @@ const ClassStudentModal = ({token,open,studentId, handleClose, handleSubmmit }) 
     p: 4,
   }
 
-  const getStudents = () => {
+  const getStudents = async () => {
     axios.get('/api/students', { headers: { Authorization: token } })
       .then(response => { 
         setStudents(response.data);
       })
+      .then(() => {
+        setStudent(students[0].name)
+      })
   }
   React.useEffect(() => {
     getStudents();
-    setStudent(students[0]);
   },[]);
 
   return (
@@ -76,10 +80,10 @@ const ClassStudentModal = ({token,open,studentId, handleClose, handleSubmmit }) 
                   <FormControl sx={{ minWidth: '100%' }}>
                     <Autocomplete
                       filterOptions={(x) => x}
-                      value={student}
+                      value={student||null}
                       id="combo-box-demo"
                       options={students}
-                      isOptionEqualToValue={(option, value) => { }}
+                      isOptionEqualToValue={(option, value) => option.name === value}
                       getOptionLabel={(option) => option.name || ""}
                       onChange={(event, selectedOption) => {
                         setStudent(selectedOption);
