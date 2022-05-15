@@ -1,49 +1,35 @@
 import * as React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
-import { Typography, Button, Box, TextField, Grid, Link } from '@mui/material'
+import UserModal from '../components/users/UserModal'
+import { Typography, Button, Box, TextField, Grid } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 
 export default function Users(props) {
-  const [id, setId] = React.useState('')
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [id, setId] = React.useState(0)
 
   const [users, setUsers] = React.useState([])
   const token = localStorage.getItem('token')
 
-  function deleteOnClick(event,cellValues) {
+  //CreateUserModal
+  const [open, setOpen] = React.useState(false)
 
-   const userId = cellValues.row.id
+  function deleteOnClick(event, cellValues) {
+    const userId = cellValues.row.id
     deletUser(userId).then(() => {
-      alert('user')
       getUsers()
     })
   }
 
   function updateOnClick(event, cellValues) {
-    setId(cellValues.row.id)
-    setUsername(cellValues.row.username)
+    setId(cellValues.row.id);
+    setOpen(true);
   }
 
   const columns = [
-    { field: 'username', headerName: 'Username', width: 130, flex: 1 },
-    {
-      field: 'createdAt',
-      headerName: 'Created At',
-      type: 'dateTime',
-      valueGetter: ({ value }) => value && new Date(value),
-      flex: 1,
-    },
-    {
-      field: 'updatedAt',
-      headerName: 'Updated At',
-      type: 'dateTime',
-      valueGetter: ({ value }) => value && new Date(value),
-      flex: 1,
-    },
+    { field: 'username', headerName: '用戶名稱', width: 130, flex: 1 },
     {
       field: 'action',
-      headerName: 'Action',
+      headerName: '動作',
       flex: 1,
       renderCell: (cellValues) => {
         return (
@@ -82,42 +68,6 @@ export default function Users(props) {
       })
   }
 
-  async function createUser(username, password) {
-    const user = {
-      username: username,
-      password: password,
-    }
-    fetch('/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(user),
-    }).then(() => {
-      return
-    })
-  }
-
-  async function updateUser(id, username, password) {
-    const user = {
-      id: id,
-      username: username,
-      password: password,
-    }
-
-    fetch('/api/users/' + user.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(user),
-    }).then(() => {
-      return
-    })
-  }
-
   async function deletUser(id) {
     fetch('/api/users/' + id, {
       method: 'DELETE',
@@ -130,26 +80,6 @@ export default function Users(props) {
     })
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const user = {
-      id: id,
-      username: data.get('username'),
-      password: data.get('password'),
-    }
-
-    if (user.id !== '') {
-      updateUser(user.id, user.username, user.password).then(() => {
-        console.log('user updated')
-      })
-    } else {
-      createUser(user.username, user.password).then(() => {
-        getUsers()
-      })
-    }
-  }
-
   React.useEffect(() => {
     getUsers()
   }, [])
@@ -157,64 +87,29 @@ export default function Users(props) {
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Box sx={{ mb: 1 }}>
-        <Typography variant="h4">用戶</Typography>
-        <Link>asdasd</Link>
-      </Box>
-      
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mb: 2 }}>
-       
-        <TextField
-          disabled
-          value={id}
-          type="hidden"
-          name="id"
-          variant="standard"
+        <Box display="flex" justifyContent="flex-start">
+          <Typography variant="h4" sx={{ pr: '10px' }}>
+            用戶
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setId(0);
+              setOpen(true)
+            }}
+          >
+            新增用戶
+          </Button>
+        </Box>
+        <UserModal
+          open={open}
+          userId={id}
+          handleClose={() => {
+            setOpen(false);
+            getUsers();
+          }}
+          token={token}
         />
-        <Grid container alignItems="center" spacing={3}>
-          <Grid item xs>
-            <Box>
-              <TextField
-                required
-                fullWidth
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value)
-                }}
-                id="outlined-required"
-                label="Username"
-                name="username"
-              />
-            </Box>
-          </Grid>
-          <Grid item xs>
-            <Box>
-              
-              <TextField
-                required
-                fullWidth
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                }}
-                id="outlined-required"
-                label="Password"
-                name="password"
-              />
-            </Box>
-          </Grid>
-          <Grid item xs>
-            <Box>
-              <Button
-                type="submit"
-                style={{ marginRight: '10px' }}
-                variant="contained"
-                color="primary"
-              >
-                {id == '' ? 'Create user' : 'Update User'}
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
       </Box>
 
       <div style={{ display: 'flex', height: '800px' }}>

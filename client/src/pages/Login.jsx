@@ -64,7 +64,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h4">
+          <Typography component="h1" variant="h5">
             Miss Chan Education
           </Typography>
 
