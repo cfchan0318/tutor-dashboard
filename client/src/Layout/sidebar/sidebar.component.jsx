@@ -14,15 +14,18 @@ import PersonIcon from '@mui/icons-material/Person'
 import SchoolIcon from '@mui/icons-material/School'
 import RoomIcon from '@mui/icons-material/Room'
 
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-export default function Sidebar(props) {
+export default function Sidebar({open, toggleDrawer}) {
   let navigate = useNavigate()
   const drawerWidth = 240
 
   return (
     <Drawer
-      variant="permanent"
+      
+      anchor={'left'}
+      open={open}
+      onClose={toggleDrawer}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
