@@ -3,6 +3,7 @@ import * as React from 'react'
 import Dashboard from '../Layout/dashboard/dashboard.component'
 import SubjectForm from '../components/subjects/subjectForm'
 import SubjectList from '../components/subjects/subjectList'
+import { Box, Typography, Button } from '@mui/material'
 
 export default function Subject(props) {
   //auth
@@ -46,6 +47,8 @@ export default function Subject(props) {
           console.log(err)
         })
     }
+    setSubjectId(0);
+    setSubjectDesc('');
     fetchSubjects();
   }
 
@@ -55,7 +58,6 @@ export default function Subject(props) {
       .get('api/subjects', { headers: { Authorization: token } })
       .then((res) => {
         setSubjects(res.data)
-        console.log(res.data)
       })
   }
 
@@ -63,7 +65,6 @@ export default function Subject(props) {
     event.preventDefault()
     setSubjectId(cellValues.row.id)
     setSubjectDesc(cellValues.row.description)
-    fetchSubjects();
   }
 
   function handleDeleteOnClick(event,cellValues){
@@ -78,6 +79,22 @@ export default function Subject(props) {
 
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
+      <Box sx={{ mb: 1 }}>
+        <Box display="flex" justifyContent="flex-start">
+          <Typography variant="h4" sx={{ pr: '10px' }}>
+            科目
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSubjectId(0);
+              setSubjectDesc('');
+            }}
+          >
+            新增科目
+          </Button>
+        </Box>
+      </Box>
       <SubjectForm
         subjectId={subjectId}
         subjectDesc={subjectDesc}

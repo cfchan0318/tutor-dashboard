@@ -7,25 +7,11 @@ export default function SubjectList({subjects,handleUpdateOnClick,handleDeleteOn
     //handleUpdateOnClick(event, cellValues)
     //handleDeleteOnClick(event, cellValues)
     const columns = [
-        { field: 'description', headerName: 'Description', width: 130, flex: 1 },
-        {
-          field: 'createdAt',
-          headerName: 'Created At',
-          type: 'dateTime',
-          valueGetter: ({ value }) => value && new Date(value),
-          flex: 1,
-        },
-        {
-          field: 'updatedAt',
-          headerName: 'Updated At',
-          type: 'dateTime',
-          valueGetter: ({ value }) => value && new Date(value),
-          flex: 1,
-        },
+        { field: 'description', headerName: '科目', flex: 1 },
         {
           field: 'action',
-          headerName: 'Action',
-          flex: 1,
+          headerName: '動作',
+          flex: 2,
           renderCell: (cellValues) => {
             return (
               <div>
@@ -37,7 +23,7 @@ export default function SubjectList({subjects,handleUpdateOnClick,handleDeleteOn
                     handleUpdateOnClick(event, cellValues)
                   }}
                 >
-                  Update
+                  更新
                 </Button>
     
                 <Button
@@ -47,7 +33,7 @@ export default function SubjectList({subjects,handleUpdateOnClick,handleDeleteOn
                     handleDeleteOnClick(event, cellValues)
                   }}
                 >
-                  Remove
+                  移除
                 </Button>
               </div>
             )

@@ -35,7 +35,7 @@ export default function SubjectForm({
       noValidate
       sx={{ mb: 2 }}
     >
-      <Typography variant="h5">Create/Update Subject</Typography>
+      
       <TextField
         disabled
         value={id}
@@ -68,7 +68,7 @@ export default function SubjectForm({
               variant="contained"
               color="primary"
             >
-              {id === 0 ? 'Create Subject' : 'Update Subject'}
+              {id === 0 ? '新增科目' : '更新科目'}
             </Button>
           </Box>
         </Grid>
