@@ -3,6 +3,7 @@ import Dashboard from '../Layout/dashboard/dashboard.component'
 import ClassroomList from '../components/classrooms/classroomList'
 import ClassroomForm from '../components/classrooms/classroomForm'
 import axios from 'axios'
+import { Box, Typography, Button } from '@mui/material'
 
 export default function Classrooms(props) {
   //auth
@@ -131,6 +132,23 @@ export default function Classrooms(props) {
 
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
+      <Box sx={{ mb: 1 }}>
+        <Box display="flex" justifyContent="flex-start">
+          <Typography variant="h4" sx={{ pr: '10px' }}>
+            課室
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSchoolId(0);
+              setId(0);
+              setDescription('');
+            }}
+          >
+            新增課室
+          </Button>
+        </Box>
+      </Box>
       <ClassroomForm
         id={id}
         schoolId={schoolId}

@@ -30,9 +30,9 @@ export default function ClassroomForm({
         handleOnSubmit();
       }}
       noValidate
-      sx={{ mb: 2 }}
+      sx={{ mb: 3 }}
     >
-      <Typography variant="h5">Create/Update Classroom</Typography>
+      
       <TextField
         disabled
         value={id}
@@ -41,8 +41,8 @@ export default function ClassroomForm({
         variant="standard"
       />
       <Grid container alignItems="center" spacing={3}>
-        <Grid item xs>
-          <FormControl sx={{ minWidth: 150 }}>
+        <Grid item xs={12} md={3}>
+          <FormControl >
             <InputLabel id="schoolId">School</InputLabel>
             <Select
               
@@ -52,7 +52,7 @@ export default function ClassroomForm({
               label="School"
               onChange={e=>{handleSchoolIdOnChange(e.target.value)}}
             >
-              <MenuItem value={0}>Please select School</MenuItem>
+              <MenuItem value={0}>請選擇學校</MenuItem>
               {schools.map((school) => (
                 <MenuItem key={school.id} value={school.id}>
                   {school.description}
@@ -68,7 +68,7 @@ export default function ClassroomForm({
               fullWidth
               value={description}
               id="outlined-required"
-              label="Description"
+              label="課室"
               name="description"
               onChange={e=>{handleDescriptionOnChange(e.target.value)}}
             />
@@ -83,7 +83,7 @@ export default function ClassroomForm({
               variant="contained"
               color="primary"
             >
-              {id == '' ? 'Create classroom' : 'Update classroom'}
+              {id === 0 ? '新增課室' : '更新課室'}
             </Button>
           </Box>
         </Grid>

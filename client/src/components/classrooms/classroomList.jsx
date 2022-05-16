@@ -5,26 +5,13 @@ import { DataGrid } from '@mui/x-data-grid';
 export default function ClassroomList({classrooms,handleUpdateOnClick,handleDeleteOnClick}){
    
     const columns = [
-        { field: 'description', headerName: 'Description', width: 130, flex: 1 },
-        { field: 'school', headerName: 'School', width: 130, flex: 1 },
-        {
-          field: 'createdAt',
-          headerName: 'Created At',
-          type: 'dateTime',
-          valueGetter: ({ value }) => value && new Date(value),
-          flex: 1,
-        },
-        {
-          field: 'updatedAt',
-          headerName: 'Updated At',
-          type: 'dateTime',
-          valueGetter: ({ value }) => value && new Date(value),
-          flex: 1,
-        },
+        { field: 'description', headerName: '課室', flex: 1 },
+        { field: 'school', headerName: '學校', flex: 1 },
+        
         {
           field: 'action',
-          headerName: 'Action',
-          flex: 1,
+          headerName: '動作',
+          flex: 2,
           renderCell: (cellValues) => {
             return (
               <div>
@@ -36,7 +23,7 @@ export default function ClassroomList({classrooms,handleUpdateOnClick,handleDele
                     handleUpdateOnClick(event, cellValues)
                   }}
                 >
-                  Update
+                  更新
                 </Button>
     
                 <Button
@@ -46,7 +33,7 @@ export default function ClassroomList({classrooms,handleUpdateOnClick,handleDele
                     handleDeleteOnClick(event, cellValues)
                   }}
                 >
-                  Remove
+                  移除
                 </Button>
               </div>
             )
