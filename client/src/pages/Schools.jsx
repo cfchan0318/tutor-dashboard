@@ -2,7 +2,7 @@ import * as React from 'react'
 import SchoolForm from '../components/schools/form'
 import SchoolList from '../components/schools/schoolList'
 import Dashboard from '../Layout/dashboard/dashboard.component'
-import { Box, Typography } from '@mui/material'
+import { Box,Button, Typography } from '@mui/material'
 
 import axios from 'axios'
 
@@ -13,7 +13,8 @@ export default function Schools(props) {
   //Data
   const [schools, setSchools] = React.useState([])
   const [schoolId, setSchoolId] = React.useState(0)
-  const [schoolDesc, setSchoolDesc] = React.useState('')
+  const [schoolDesc, setSchoolDesc] =React.useState('')
+  
 
   function onSubmit(id, description) {
     if (description === '') {
@@ -31,9 +32,10 @@ export default function Schools(props) {
               Authorization: token,
             },
           })
-          .then((response) => console.log(response))
           .then(() => {
-            getSchools()
+            getSchools();
+            setSchoolId(0);
+            setSchoolDesc('');
           })
           .catch((err) => {
             console.log(err)
@@ -51,9 +53,10 @@ export default function Schools(props) {
               Authorization: token,
             },
           })
-          .then((response) => console.log(response))
           .then(() => {
-            getSchools()
+            getSchools();
+            setSchoolId(0);
+            setSchoolDesc('');
           })
           .catch((err) => {
             console.log(err)
@@ -107,13 +110,26 @@ export default function Schools(props) {
   return (
     <Dashboard headerHandleOnClick={props.logoutOnClick}>
       <Box sx={{ mb: 1 }}>
-        <Typography variant="h4">Schools</Typography>
+        <Box display="flex" justifyContent="flex-start">
+          <Typography variant="h4" sx={{ pr: '10px' }}>
+            學校
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSchoolId(0);
+              setSchoolDesc('');
+            }}
+          >
+            新增學校
+          </Button>
+        </Box>
       </Box>
       <Box sx={{ mb: 1 }}>
         <SchoolForm
           id={schoolId}
-          description={schoolDesc}
-          setDescription={setSchoolDesc}
+          schoolDesc={schoolDesc}
+          
           onSubmit={onSubmit}
         />
       </Box>

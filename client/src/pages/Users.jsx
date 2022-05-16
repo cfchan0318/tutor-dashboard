@@ -26,7 +26,7 @@ export default function Users(props) {
   }
 
   const columns = [
-    { field: 'username', headerName: '用戶名稱', width: 130, flex: 1 },
+    { field: 'username', headerName: '用戶名稱', },
     {
       field: 'action',
       headerName: '動作',

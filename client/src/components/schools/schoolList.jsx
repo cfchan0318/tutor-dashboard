@@ -5,25 +5,12 @@ import { DataGrid } from '@mui/x-data-grid';
 export default function SchoolList({schools,updateOnClick,deleteOnClick}){
    
     const columns = [
-        { field: 'description', headerName: 'Description', width: 130, flex: 1 },
-        {
-          field: 'createdAt',
-          headerName: 'Created At',
-          type: 'dateTime',
-          valueGetter: ({ value }) => value && new Date(value),
-          flex: 1,
-        },
-        {
-          field: 'updatedAt',
-          headerName: 'Updated At',
-          type: 'dateTime',
-          valueGetter: ({ value }) => value && new Date(value),
-          flex: 1,
-        },
+        { field: 'description', headerName: 'Description', flex: 1 },
+        
         {
           field: 'action',
           headerName: 'Action',
-          flex: 1,
+          flex: 2,
           renderCell: (cellValues) => {
             return (
               <div>

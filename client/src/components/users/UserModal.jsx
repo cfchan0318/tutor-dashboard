@@ -121,7 +121,7 @@ const UserModal = ({ open, handleClose, userId, token }) => {
                   label="用戶名稱"
                   name="username"
                 /> :
-                <Typography variant='p'>
+                <Typography variant='body1'>
                   用戶名稱: {username}
                 </Typography>
                 }

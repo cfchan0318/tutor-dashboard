@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { Box, Typography, TextField, Grid, Button } from '@mui/material'
+import { Box,  TextField, Grid, Button } from '@mui/material'
 
-export default function SchoolForm({id,description,setDescription,onSubmit}) {
+export default function SchoolForm({id,schoolDesc,onSubmit}) {
+  const [description, setDescription] = React.useState('')
+
   React.useEffect(() => {
-    console.log("id: "+id + ' desc:' + description)
+    id === 0 ? setDescription('') : setDescription(schoolDesc);
   }, [id])
 
   return (
@@ -11,12 +13,13 @@ export default function SchoolForm({id,description,setDescription,onSubmit}) {
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
+        setDescription('');
         onSubmit(id, description)
       }}
       noValidate
       sx={{ mb: 2 }}
     >
-      <Typography variant="h5">Create/Update School</Typography>
+      
       <TextField
         disabled
         value={id}
@@ -49,7 +52,7 @@ export default function SchoolForm({id,description,setDescription,onSubmit}) {
               variant="contained"
               color="primary"
             >
-              {id == undefined ? 'Create school' : 'Update school'}
+              {id === 0 ? '建立學校' : '更新學校'}
             </Button>
           </Box>
         </Grid>
