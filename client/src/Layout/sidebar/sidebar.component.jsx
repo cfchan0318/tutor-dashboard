@@ -35,71 +35,51 @@ export default function Sidebar({open, toggleDrawer}) {
       <Toolbar />
       <List>
         <ListItem onClick={() => navigate('/')} button key="Home">
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
+          
           <ListItemText primary="主頁" />
         </ListItem>
       </List>
       <Divider />
-      <ListItem>
-        <Typography variant="subtitle2">課程管理</Typography>
-      </ListItem>
+      
 
-      <ListItem onClick={() => navigate('/subjects')} button key="Subjects">
-        <ListItemIcon>
-          <SchoolIcon />
-        </ListItemIcon>
-        <ListItemText primary="科目" />
-      </ListItem>
+      
 
       <ListItem onClick={() => navigate('/courses')} button key="Courses">
-        <ListItemIcon>
-          <SchoolIcon />
-        </ListItemIcon>
+       
         <ListItemText primary="課程" />
       </ListItem>
 
       <ListItem onClick={() => navigate('/classes')} button key="Classes">
-        <ListItemIcon>
-          <SchoolIcon />
-        </ListItemIcon>
+        
         <ListItemText primary="課堂" />
       </ListItem>
 
       <Divider />
-      <ListItem>
-        <Typography variant="subtitle2">學校管理</Typography>
-      </ListItem>
+     
       <ListItem onClick={() => navigate('/schools')} button key="Schools">
-        <ListItemIcon>
-          <SchoolIcon />
-        </ListItemIcon>
+        
         <ListItemText primary="學校" />
       </ListItem>
 
       <ListItem onClick={() => navigate('/classrooms')} button key="Classrooms">
-        <ListItemIcon>
-          <RoomIcon />
-        </ListItemIcon>
+       
         <ListItemText primary="課室" />
       </ListItem>
 
+      <ListItem onClick={() => navigate('/subjects')} button key="Subjects">
+        
+        <ListItemText primary="科目" />
+      </ListItem>
+      
       <ListItem onClick={() => navigate('/students')} button key="Students">
-        <ListItemIcon>
-          <SchoolIcon />
-        </ListItemIcon>
+        
         <ListItemText primary="學生" />
       </ListItem>
       
       <Divider />
-      <ListItem>
-        <Typography variant="subtitle2">系統管理</Typography>
-      </ListItem>
+      
       <ListItem onClick={() => navigate('/users')} button key="Users">
-        <ListItemIcon>
-          <PersonIcon />
-        </ListItemIcon>
+        
         <ListItemText primary="用戶" />
       </ListItem>
     </Drawer>
