@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 //Database
 const db = require('./src/models');
 
-/*
+
 db.sequelize.sync({ force: true }).then(() => {
 
     //create default admin user
@@ -38,11 +38,11 @@ db.sequelize.sync({ force: true }).then(() => {
         })
     });
 });
-*/
 
 
 
 
+/*
 db.sequelize.sync()
     .then(() => {
 
@@ -62,7 +62,7 @@ db.sequelize.sync()
         });
 
     });
-
+*/
 console.log(process.env.DB_HOST);
 
 
@@ -79,6 +79,7 @@ const studentRoute = require("./src/routes/student");
 const courseRoute = require("./src/routes/courses");
 const classRoute = require("./src/routes/classes");
 const classStudentRoute = require('./src/routes/classStudent');
+const courseStudentRoute = require('./src/routes/courseStudent');
 
 //Router setup
 app.use('/api/users', userRoute);
@@ -90,7 +91,7 @@ app.use('/api/students', studentRoute);
 app.use('/api/courses', courseRoute);
 app.use('/api/classes', classRoute);
 app.use('/api/classStudents', classStudentRoute);
-
+app.use('/api/courseStudents', courseStudentRoute);
 
 app.use('/', indexRoute);
 
