@@ -11,6 +11,7 @@ import Classrooms from "./pages/Classroom";
 import Subjects from "./pages/Subjects";
 import Students from "./pages/Students";
 import Courses from "./pages/Courses";
+import CourseDetails from "./pages/CourseDetails";
 import Classes from "./pages/Classes";
 import ClassDetails from "./pages/ClassDetails";
 
@@ -47,6 +48,7 @@ function App() {
       <Route path="/subjects" element={<Subjects logoutOnClick={logout} />} />
       <Route path="/students" element={<Students logoutOnClick={logout} /> } />
       <Route path="/courses" element={<Courses logoutOnClick={logout} />} />
+      <Route path="/courses/:id" element={<CourseDetails logoutOnClick={logout} />} />
       <Route path="/classes" element={<Classes logoutOnClick={logout} /> } />
       <Route path="/classes/:id" element={<ClassDetails logoutOnClick={logout} />}  />
     </Routes>
