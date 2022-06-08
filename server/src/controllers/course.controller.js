@@ -1,6 +1,7 @@
 const { course } = require("pg/lib/defaults");
 const db = require("../models");
 const Course = db.courses;
+const Student = db.students;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -54,7 +55,14 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Course.findByPk(id)
+  Course.findByPk(id, {
+    include: [
+      {
+        model: Student,
+        as: "students"
+      }
+    ]
+  })
     .then(data => {
       if (data) {
         res.send(data);
@@ -72,27 +80,27 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const id = req.params.id;
-  
-    Course.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Course was updated successfully."
-          });
-        } else {
-          res.send({
-            message: `Cannot update Course with id=${id}. Maybe Course was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating Course with id=" + id
+  const id = req.params.id;
+
+  Course.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "Course was updated successfully."
         });
+      } else {
+        res.send({
+          message: `Cannot update Course with id=${id}. Maybe Course was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Course with id=" + id
       });
+    });
 
 };
 
